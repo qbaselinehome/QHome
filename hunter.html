@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QBaseline — Pattern Hunter</title>
+<meta name="description" content="Pattern Hunter — a 24/7 autonomous engine scanning public data for hidden cross-domain correlations. The first AI being.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#DDD0C4;--ink:#1F1812;--soft:#2D241C;--muted:#6B5E4D;--accent:#5C322F;
+  --line:rgba(31,24,18,0.18);--line-soft:rgba(31,24,18,0.09);--line-str:rgba(31,24,18,0.33);
+  --serif:'Cardo', Georgia, serif;--mono:'IBM Plex Mono', monospace;--mw:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--soft);font-family:var(--serif);font-size:18px;line-height:1.78;font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+::selection{background:var(--accent);color:var(--bg)}
+.mono{font-family:var(--mono);font-weight:400}
+.kick{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted)}
+.wrap{max-width:var(--mw);margin:0 auto;padding:0 40px}
+em{font-style:italic;color:var(--accent)}
+a{color:var(--accent)}
+
+/* ============ header / nav ============ */
+header{position:fixed;top:0;left:0;right:0;z-index:50;border-bottom:1px solid transparent;transition:border-color .5s ease,background .5s ease}
+header.scrolled{background:var(--bg);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:78px}
+.brand{font-family:var(--mono);font-weight:500;font-size:21px;letter-spacing:0.26em;color:var(--ink);text-decoration:none}
+.brand span{color:var(--accent)}
+.navlinks{display:flex;gap:36px;align-items:center}
+.navlinks a{font-family:var(--mono);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft);text-decoration:none;position:relative;padding:4px 0}
+.navlinks a .idx{color:var(--muted);margin-right:7px;font-size:10.5px}
+.navlinks a::after{content:"";position:absolute;left:0;bottom:-2px;height:1px;width:0;background:var(--accent);transition:width .4s cubic-bezier(.2,.7,.2,1)}
+.navlinks a:hover{color:var(--ink)}.navlinks a:hover::after{width:100%}
+.navlinks a.active{color:var(--accent)}
+.navlinks a.active .idx{color:var(--accent)}
+.navlinks a.active::after{width:100%}
+
+/* ============ hero ============ */
+.hero{position:relative;z-index:1;padding:118px 0 96px}
+.kickrow{display:flex;align-items:center;gap:14px;margin-bottom:46px}
+.kickrow .ln{height:1px;width:46px;background:var(--line-str)}
+.hero-grid{display:grid;grid-template-columns:1.32fr 1fr;gap:70px;align-items:center}
+h1{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:clamp(34px,4.2vw,58px);line-height:1.08;letter-spacing:-0.018em;max-width:19ch}
+h1 em{font-style:italic;color:var(--accent)}
+.lede{margin-top:36px;max-width:46ch;font-size:20px;line-height:1.7;color:var(--soft);font-weight:400}
+.lede em{font-style:italic;color:var(--accent)}
+
+/* figure box */
+.figure{border:1px solid var(--line-str);padding:26px 26px 20px;position:relative;background:transparent}
+.figure .figtag{position:absolute;top:14px;right:16px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;color:var(--muted);text-transform:uppercase}
+.figure .cap{font-family:var(--mono);font-size:11px;letter-spacing:0.05em;color:var(--muted);margin-top:16px;padding-top:13px;border-top:1px solid var(--line-soft);line-height:1.6}
+svg .lbl{font-family:'IBM Plex Mono',monospace;font-size:10.5px;fill:var(--muted);letter-spacing:0.03em}
+svg .lbl-ink{fill:var(--soft)}svg .lbl-ac{fill:var(--accent)}
+svg .stroke{stroke:var(--ink);fill:none}svg .stroke-soft{stroke:var(--line-str);fill:none}
+.flow{stroke:var(--accent);stroke-width:1.4;fill:none;stroke-dasharray:4 4;animation:dash 6s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-40}}
+
+/* hero meta row */
+.hero-meta{margin-top:62px;display:flex;gap:54px;flex-wrap:wrap;padding-top:28px;border-top:1px solid var(--line)}
+.hero-meta .k{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.hero-meta .v{font-size:15.5px;line-height:1.6;color:var(--soft);max-width:30ch}
+
+/* reveals */
+.rv{opacity:0;transform:translateY(22px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.07s}.d2{transition-delay:.18s}.d3{transition-delay:.3s}.d4{transition-delay:.42s}
+
+/* ============ generic content section ============ */
+.section{position:relative;z-index:1;padding:88px 0;border-top:1px solid var(--line)}
+.section-head{display:grid;grid-template-columns:1fr 1.7fr;gap:74px;align-items:start}
+.section-head h2{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:33px;line-height:1.18;letter-spacing:-0.01em}
+.section-head .lead p{font-size:18.5px}.section-head .lead p+p{margin-top:16px}
+.section-head .lead em{color:var(--accent);font-style:italic}
+.note{margin-top:24px;font-family:var(--mono);font-size:12.5px;color:var(--muted);line-height:1.7;border-left:2px solid var(--line-str);padding-left:16px}
+
+/* two-column body */
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:60px;align-items:start}
+.twocol p{font-size:17.5px}.twocol p+p{margin-top:14px}
+.twocol h4{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:22px;line-height:1.25;margin-bottom:14px}
+.twocol em{color:var(--accent);font-style:italic}
+
+/* text + figure layout */
+.body-fig{display:grid;grid-template-columns:1.05fr 1fr;gap:70px;align-items:center;margin-top:50px}
+.body-fig.reverse > :first-child{order:2}
+.body-fig p{font-size:18px}.body-fig p+p{margin-top:14px}
+.body-fig h4{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:26px;line-height:1.18;margin-bottom:20px}
+
+/* feature mosaic */
+.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:50px;border-top:1px solid var(--line)}
+.feature{padding:28px 24px 26px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.feature:nth-child(4n){border-right:0}
+.feature .ft-num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.08em;margin-bottom:14px}
+.feature .ft-t{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:19px;line-height:1.25;margin-bottom:10px}
+.feature .ft-d{font-size:14.5px;line-height:1.62;color:var(--soft)}
+
+/* example cards (Pattern Hunter discoveries) */
+.examples{margin-top:54px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line)}
+.example{padding:30px 26px 28px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.example:last-child{border-right:0}
+.example .ex-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.example .ex-t{font-family:var(--serif);font-weight:400;font-style:italic;color:var(--ink);font-size:20px;line-height:1.2;margin-bottom:14px}
+.example .ex-d{font-size:15px;line-height:1.62;color:var(--soft)}
+.example .ex-stats{margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.04em}
+
+/* chips */
+.chips{margin-top:28px;display:flex;flex-wrap:wrap;gap:9px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:0.05em;color:var(--soft);border:1px solid var(--line-str);padding:6px 11px;transition:background .35s,color .35s,border-color .35s}
+.chip:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* pull quote */
+.pullquote{margin:72px auto;max-width:32ch;text-align:center;font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink);font-size:clamp(24px,3.2vw,38px);line-height:1.32;letter-spacing:-0.01em}
+.pullquote::before{content:"";display:block;width:46px;height:1px;background:var(--line-str);margin:0 auto 28px}
+.pullquote::after{content:"";display:block;width:46px;height:1px;background:var(--line-str);margin:28px auto 0}
+
+/* data table */
+.data-wrap{margin-top:46px;border:1px solid var(--line);overflow-x:auto}
+.data-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13px}
+.data-table th,.data-table td{padding:11px 14px;text-align:right;border-bottom:1px solid var(--line)}
+.data-table th{font-weight:500;color:var(--ink);text-align:right;text-transform:uppercase;letter-spacing:0.08em;font-size:10.5px;color:var(--muted);background:transparent}
+.data-table th:first-child,.data-table td:first-child{text-align:left}
+.data-table tr:last-child td{border-bottom:0}
+.data-table .saturate td{color:var(--accent)}
+.data-cap{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6}
+
+/* notation table */
+.notation{margin-top:40px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.notation .row{display:grid;grid-template-columns:80px 200px 1fr;gap:24px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.notation .row:last-child{border-bottom:0}
+.notation .sym{font-family:var(--serif);font-size:22px;color:var(--ink);text-align:center}
+.notation .nm{font-family:var(--mono);font-size:12px;color:var(--soft);letter-spacing:0.05em;text-transform:uppercase}
+.notation .ds{font-size:15.5px;color:var(--soft);line-height:1.55}
+
+/* nextpage CTA */
+.nextpage{padding:90px 0;border-top:1px solid var(--line);text-align:center}
+.nextpage .kk{font-family:var(--mono);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.nextpage a{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink);font-size:clamp(28px,4.4vw,52px);text-decoration:none;letter-spacing:-0.01em;display:inline-flex;align-items:baseline;gap:18px}
+.nextpage a .arr{color:var(--accent);transition:transform .4s cubic-bezier(.2,.7,.2,1);font-style:normal}
+.nextpage a:hover .arr{transform:translateX(14px)}
+
+/* footer */
+footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:66px 0 52px}
+.foot{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:32px}
+.foot .lg{font-family:var(--mono);font-weight:500;font-size:21px;letter-spacing:0.26em;color:var(--ink)}.foot .lg span{color:var(--accent)}
+.foot .status{font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.8;max-width:46ch;margin-top:10px}
+.foot .cols{display:flex;gap:56px}
+.foot a{display:block;font-family:var(--mono);font-size:12px;color:var(--soft);text-decoration:none;margin-bottom:9px;letter-spacing:0.04em}
+.foot a:hover{color:var(--accent)}.foot .h{color:var(--muted);text-transform:uppercase;letter-spacing:0.16em;font-size:10.5px;margin-bottom:15px}
+
+/* home-only: pillars (used on index) */
+.pillars{position:relative;z-index:1;padding:26px 0 36px}
+.pillar{display:grid;grid-template-columns:1.05fr 1fr;gap:70px;align-items:center;padding:82px 0;border-top:1px solid var(--line)}
+.pillar:last-child{border-bottom:1px solid var(--line)}
+.pillar .num{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:0.1em}
+.pillar h3{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:clamp(32px,4vw,48px);line-height:1.05;letter-spacing:-0.015em;margin:16px 0 24px}
+.pillar .body p{font-size:18px}.pillar .body p+p{margin-top:15px}
+.pillar:nth-child(even) .figure{order:-1}
+.more{display:inline-flex;align-items:center;gap:10px;margin-top:32px;font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);text-decoration:none}
+.more .arr{transition:transform .4s cubic-bezier(.2,.7,.2,1)}.more:hover .arr{transform:translateX(7px)}
+.connect{position:relative;z-index:1;padding:100px 0;border-top:1px solid var(--line);text-align:center}
+.connect .eq{font-family:var(--mono);font-size:clamp(12px,1.5vw,16px);color:var(--soft);display:flex;gap:15px;justify-content:center;flex-wrap:wrap;align-items:center}
+.connect .eq b{color:var(--accent);font-weight:500}.connect .eq .op{color:var(--muted)}
+.connect blockquote{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink);font-size:clamp(24px,3.2vw,38px);line-height:1.34;max-width:24ch;margin:38px auto 0;letter-spacing:-0.01em}
+
+/* band style for home */
+.band{position:relative;z-index:1;padding:90px 0;border-top:1px solid var(--line)}
+.band-grid{display:grid;grid-template-columns:1fr 1.7fr;gap:74px;align-items:start}
+.band h2{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:33px;line-height:1.2;letter-spacing:-0.01em}
+.band p{font-size:18.5px;margin-top:20px}.band p+p{margin-top:16px}
+.band .note{margin-top:24px;font-family:var(--mono);font-size:12.5px;color:var(--muted);line-height:1.7;border-left:2px solid var(--line-str);padding-left:16px}
+
+/* ========== sub-navigation dropdown ========== */
+.navlinks > .has-sub{position:relative}
+.subnav{position:absolute;top:calc(100% + 8px);left:-14px;min-width:200px;background:var(--bg);border:1px solid var(--line-str);opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity .3s,transform .3s;padding:6px 0;z-index:60}
+.has-sub:hover .subnav,.has-sub:focus-within .subnav{opacity:1;pointer-events:auto;transform:translateY(0)}
+.subnav a{display:block;padding:9px 18px;font-family:var(--mono);font-size:11px;color:var(--soft);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;transition:color .3s,background .3s}
+.subnav a::after{display:none}
+.subnav a:hover{color:var(--accent);background:rgba(31,24,18,0.04)}
+.subnav a.active{color:var(--accent)}
+
+/* ========== CTA button ========== */
+.cta-btn{display:inline-flex;align-items:center;gap:14px;padding:15px 24px;border:1px solid var(--ink);background:transparent;font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink);text-decoration:none;transition:background .4s,color .4s,border-color .4s,transform .4s}
+.cta-btn .arr{transition:transform .4s cubic-bezier(.2,.7,.2,1);font-style:normal}
+.cta-btn:hover{background:var(--ink);color:var(--bg)}
+.cta-btn:hover .arr{transform:translateX(7px)}
+.cta-btn.primary{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.cta-btn.primary:hover{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.cta-btn.big{padding:19px 30px;font-size:13.5px;letter-spacing:0.14em}
+
+/* ========== Pattern Hunter page extras ========== */
+.discover-list{margin-top:54px;display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line)}
+.discover-item{padding:32px 28px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.discover-item:nth-child(2n){border-right:0}
+.discover-item .dt{font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.discover-item .dh{font-family:var(--serif);font-weight:400;font-style:italic;color:var(--ink);font-size:22px;line-height:1.2;margin-bottom:14px}
+.discover-item .dd{font-size:15.5px;line-height:1.62;color:var(--soft)}
+.discover-item .ds{margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.04em}
+
+/* ========== coming-soon page ========== */
+.cs-status{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.cs-status::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse-dot 2s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{opacity:0.4;transform:scale(0.85)}50%{opacity:1;transform:scale(1.15)}}
+
+.cs-hero{padding:130px 0 60px}
+.cs-hero h1{font-size:clamp(36px,5vw,68px);max-width:19ch;margin-top:32px}
+.cs-hero .lede{margin-top:30px;max-width:54ch}
+
+.signup{margin-top:44px;display:flex;gap:0;max-width:540px;border:1px solid var(--ink);background:transparent}
+.signup input{flex:1;padding:16px 20px;background:transparent;border:none;outline:none;font-family:var(--mono);font-size:14px;color:var(--ink)}
+.signup input::placeholder{color:var(--muted)}
+.signup button{padding:16px 24px;background:var(--ink);color:var(--bg);border:none;font-family:var(--mono);font-size:12px;letter-spacing:0.13em;text-transform:uppercase;cursor:pointer;font-weight:500;transition:background .3s,color .3s}
+.signup button:hover{background:var(--accent)}
+.signup-ok{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--accent);opacity:0;transition:opacity .4s;letter-spacing:0.05em}
+.signup-ok.show{opacity:1}
+
+/* live activity feed */
+.feed{margin-top:50px;border:1px solid var(--line-str);background:transparent}
+.feed-head{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+.feed-head .live{display:inline-flex;align-items:center;gap:8px;color:var(--accent)}
+.feed-head .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse-dot 2s ease-in-out infinite}
+.feed-body{padding:18px 22px;min-height:340px;font-family:var(--mono);font-size:13px;color:var(--soft);overflow:hidden;position:relative}
+.feed-body::before{content:"";position:absolute;top:0;left:0;right:0;height:30px;background:linear-gradient(180deg,var(--bg),transparent);pointer-events:none;z-index:2}
+.feed-body::after{content:"";position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(0deg,var(--bg),transparent);pointer-events:none;z-index:2}
+.lg-line{padding:5px 0;display:grid;grid-template-columns:90px 80px 1fr;gap:14px;align-items:baseline;opacity:0;transform:translateY(-6px);animation:lgIn .55s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes lgIn{to{opacity:1;transform:translateY(0)}}
+.lg-line .t{color:var(--muted);font-size:11.5px}
+.lg-line .ty{font-weight:500;text-transform:uppercase;font-size:10.5px;letter-spacing:0.1em}
+.lg-line .tx{color:var(--ink)}
+.lg-scan .ty{color:var(--muted)}
+.lg-hypo .ty{color:var(--accent)}
+.lg-test .ty{color:var(--soft)}
+.lg-retract .ty{color:var(--accent)}
+.lg-record .ty{color:var(--ink)}
+
+/* stats grid */
+.stats{margin-top:60px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{padding:30px 24px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat .sv{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:38px;line-height:1;letter-spacing:-0.01em}
+.stat .sk{margin-top:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);line-height:1.5;font-weight:500}
+.stat .sd{margin-top:6px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.55;letter-spacing:0.02em}
+
+/* ambient scan-line */
+.scanline{position:fixed;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.22;animation:scanLine 9s linear infinite;pointer-events:none;z-index:5}
+@keyframes scanLine{0%{transform:translateY(0)}100%{transform:translateY(100vh)}}
+
+/* responsive overrides for the new components */
+@media(max-width:880px){
+  .signup{flex-direction:column;max-width:none}
+  .signup button{padding:14px 20px}
+  .lg-line{grid-template-columns:auto auto 1fr;gap:8px}
+  .lg-line .t{font-size:11px}
+  .discover-list{grid-template-columns:1fr}
+  .discover-item{border-right:0}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat{border-right:1px solid var(--line)}
+  .stat:nth-child(2n){border-right:0}
+  .stat .sv{font-size:30px}
+  .subnav{position:static;opacity:1;pointer-events:auto;transform:none;border:0;padding:4px 0 0 20px;min-width:0;background:transparent}
+  .subnav a{padding:4px 0;text-transform:none;letter-spacing:0.04em;font-size:11px}
+  .subnav a::after{display:none}
+  .has-sub{display:flex;flex-direction:column;align-items:flex-start}
+  .cs-hero{padding:104px 0 50px}
+}
+
+@media(max-width:880px){
+  .wrap{padding:0 24px}.navlinks{gap:14px}.navlinks a .idx{display:none}
+  .hero{padding:104px 0 70px}.hero-grid{grid-template-columns:1fr;gap:44px}
+  .section-head,.band-grid{grid-template-columns:1fr;gap:30px}
+  .twocol{grid-template-columns:1fr;gap:30px}
+  .body-fig{grid-template-columns:1fr;gap:36px}
+  .body-fig.reverse > :first-child{order:0}
+  .feature-grid{grid-template-columns:repeat(2,1fr)}
+  .feature:nth-child(4n){border-right:1px solid var(--line)}
+  .feature:nth-child(2n){border-right:0}
+  .examples{grid-template-columns:1fr}
+  .example{border-right:0}
+  .pillar{grid-template-columns:1fr;gap:36px;padding:58px 0}.pillar:nth-child(even) .figure{order:0}
+  .hero-meta{gap:28px}
+  .notation .row{grid-template-columns:60px 1fr;gap:14px}
+  .notation .ds{grid-column:1/-1;margin-top:4px}
+}
+
+/* ========== TERMINAL — engine console ========== */
+.terminal{margin-top:46px;background:#1A140F;color:#E8D7B0;border:1px solid var(--ink);font-family:var(--mono);font-size:13px;line-height:1.78;overflow:hidden}
+.term-head{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.08);font-size:11px;letter-spacing:0.08em;flex-wrap:wrap;gap:10px}
+.term-head .tdots{display:flex;gap:6px}
+.term-head .tdots i{width:9px;height:9px;border-radius:50%;background:rgba(232,215,176,0.22);display:block}
+.term-head .ttitle{color:rgba(232,215,176,0.6);letter-spacing:0.06em;flex:1;text-align:center}
+.term-head .tstatus{color:#B5A85C;display:inline-flex;align-items:center;gap:8px}
+.term-head .tstatus::before{content:"";width:7px;height:7px;border-radius:50%;background:#B5A85C;animation:pulse-dot 2s ease-in-out infinite}
+.term-body{padding:20px 24px;min-height:340px}
+.term-line{padding:1.5px 0;color:#E8D7B0;white-space:pre;font-variant-ligatures:none;font-size:13px}
+.term-line.dim{color:rgba(232,215,176,0.55)}
+.term-line.head{color:rgba(232,215,176,0.45);letter-spacing:0.1em;font-size:10.5px;text-transform:uppercase;margin:10px 0 3px}
+.term-line .pr{color:#B5A85C;margin-right:8px;font-weight:500}
+.term-line .ok{color:#9CB67A}
+.term-line .ac{color:#D88A6A}
+.caret{display:inline-block;width:7px;height:14px;background:#B5A85C;animation:tblink 1.05s steps(2) infinite;vertical-align:-2px;margin-left:4px}
+@keyframes tblink{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+/* ========== SPARKLINES — 24h engine metrics ========== */
+.sparks{margin-top:32px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line-str)}
+.spark{padding:22px 22px 18px;border-right:1px solid var(--line)}
+.spark:last-child{border-right:0}
+.spark .sk{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.spark .sv{font-family:var(--serif);color:var(--ink);font-size:24px;line-height:1;margin-bottom:14px}
+.spark .sv .u{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:8px;letter-spacing:0.04em}
+.spark svg{display:block;width:100%;height:44px;overflow:visible}
+
+/* ========== WORLD MAP ========== */
+.worldmap{margin-top:46px;border:1px solid var(--line-str);padding:24px 26px 18px}
+.worldmap svg{display:block;width:100%;height:auto}
+.wm-caption{margin-top:16px;font-family:var(--mono);font-size:11px;color:var(--muted);padding-top:13px;border-top:1px solid var(--line-soft);letter-spacing:0.03em;line-height:1.65}
+
+/* ========== REGIONS grid ========== */
+.regions{margin-top:24px;display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line-str)}
+.region{padding:20px 18px;border-right:1px solid var(--line)}
+.region:last-child{border-right:0}
+.region .rg{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;font-weight:500;color:var(--ink);letter-spacing:0.04em;margin-bottom:12px}
+.region .rg::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse-dot 2s ease-in-out infinite}
+.region .rg-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--soft);padding:2px 0}
+.region .rg-row .k{color:var(--muted);letter-spacing:0.02em}
+.region .rg-row .v{color:var(--ink);font-weight:500}
+
+/* ========== CLI snippet ========== */
+.cli{margin-top:34px;background:#1A140F;color:#E8D7B0;font-family:var(--mono);font-size:13px;padding:22px 28px;line-height:1.95;overflow-x:auto;border:1px solid var(--ink)}
+.cli .ln{display:block;white-space:pre}
+.cli .pr{color:#B5A85C;font-weight:500;margin-right:6px}
+.cli .ok{color:#9CB67A}
+.cli .cm{color:rgba(232,215,176,0.5)}
+.cli .em{color:#D88A6A}
+
+/* ========== LADDER — data → wisdom ========== */
+.ladder{margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line-str);border-bottom:1px solid var(--line-str)}
+.ladder .step{padding:32px 24px 30px;border-right:1px solid var(--line);position:relative}
+.ladder .step:last-child{border-right:0}
+.ladder .step .num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.13em;margin-bottom:14px}
+.ladder .step .t{font-family:var(--serif);font-style:italic;color:var(--ink);font-size:24px;line-height:1.18;margin-bottom:12px}
+.ladder .step .d{font-family:var(--mono);font-size:12px;color:var(--soft);line-height:1.7;letter-spacing:0.01em}
+.ladder .step::after{content:"\2192";position:absolute;right:-10px;top:42px;background:var(--bg);width:20px;text-align:center;color:var(--accent);font-family:var(--mono);font-size:14px}
+.ladder .step:last-child::after{display:none}
+
+@media(max-width:880px){
+  .term-body{padding:14px 16px}
+  .term-line{font-size:11.5px}
+  .term-head{padding:9px 12px}
+  .sparks{grid-template-columns:1fr 1fr}
+  .spark{border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .spark:nth-child(2n){border-right:0}
+  .spark:nth-last-child(-n+2){border-bottom:0}
+  .regions{grid-template-columns:1fr 1fr}
+  .region{border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .region:nth-child(2n){border-right:0}
+  .ladder{grid-template-columns:1fr}
+  .ladder .step{border-right:0;border-bottom:1px solid var(--line);padding:24px 22px}
+  .ladder .step:last-child{border-bottom:0}
+  .ladder .step::after{display:none}
+  .cli{padding:16px 18px;font-size:11.5px}
+}
+</style>
+</head>
+<body>
+
+<header id="hdr"><div class="wrap nav">
+  <a href="index.html" class="brand">Q<span>·</span>BASELINE</a>
+  <nav class="navlinks">
+    <div class="has-sub">
+      <a href="beings.html" class="active"><span class="idx">01</span>AI Beings</a>
+      <div class="subnav">
+        <a href="beings.html">Overview</a>
+        <a href="hunter.html" class="active">Pattern Hunter</a>
+      </div>
+    </div>
+    <a href="quantum.html"><span class="idx">02</span>Quantum Integration</a>
+    <a href="time.html"><span class="idx">03</span>Time Collapse</a>
+  </nav>
+</div></header>
+
+<main id="top">
+  <section class="hero"><div class="wrap">
+    <div class="kickrow rv"><span class="ln"></span><span class="kick">Track 01 &middot; The first being</span></div>
+    <div class="hero-grid">
+      <div>
+        <h1 class="rv d1">Pattern Hunter, <em>alive at 3am</em>.</h1>
+        <p class="lede rv d2">A 24/7 autonomous engine that scans the world's public data &mdash; academic papers, patent filings, SEC documents, news feeds, on-chain data, government records &mdash; looking for hidden correlations no one has noticed yet. The system does not stop when no one is watching.</p>
+        <div class="rv d3" style="margin-top:38px"><a class="cta-btn primary big" href="coming-soon.html">Try Hunter <span class="arr">&rarr;</span></a></div>
+      </div>
+      <div class="figure rv d3">
+        <span class="figtag">Fig. 1.1</span>
+        <svg viewBox="0 0 360 290" width="100%" role="img" aria-label="Pattern Hunter scans public data and surfaces non-obvious cross-domain correlations">
+          <text x="22" y="24" class="lbl">scanning &middot; cross-domain correlations</text>
+          <g fill="var(--muted)" opacity="0.42">
+            <circle cx="48" cy="58" r="2"/><circle cx="172" cy="55" r="2"/><circle cx="215" cy="72" r="2"/><circle cx="256" cy="58" r="2"/><circle cx="296" cy="74" r="2"/><circle cx="328" cy="60" r="2"/>
+            <circle cx="56" cy="98" r="2"/><circle cx="148" cy="95" r="2"/><circle cx="190" cy="110" r="2"/><circle cx="272" cy="112" r="2"/><circle cx="310" cy="100" r="2"/>
+            <circle cx="38" cy="140" r="2"/><circle cx="82" cy="148" r="2"/><circle cx="170" cy="150" r="2"/><circle cx="218" cy="138" r="2"/><circle cx="263" cy="145" r="2"/><circle cx="305" cy="138" r="2"/>
+            <circle cx="50" cy="180" r="2"/><circle cx="98" cy="190" r="2"/><circle cx="142" cy="175" r="2"/><circle cx="185" cy="192" r="2"/><circle cx="230" cy="182" r="2"/><circle cx="320" cy="185" r="2"/>
+          </g>
+          <g stroke="var(--accent)" stroke-width="1.2" fill="none" stroke-dasharray="3 3" opacity="0.85">
+            <line x1="88" y1="52" x2="228" y2="98"/>
+            <line x1="228" y1="98" x2="278" y2="195"/>
+            <line x1="278" y1="195" x2="125" y2="135"/>
+            <line x1="125" y1="135" x2="88" y2="52"/>
+          </g>
+          <g fill="var(--accent)">
+            <circle cx="88" cy="52" r="4.5"/><circle cx="228" cy="98" r="4.5"/>
+            <circle cx="125" cy="135" r="4.5"/><circle cx="278" cy="195" r="4.5"/>
+          </g>
+          <circle cx="88" cy="52" r="4.5" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.5">
+            <animate attributeName="r" values="6;18" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.5;0" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="278" cy="195" r="4.5" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.5">
+            <animate attributeName="r" values="6;18" dur="3.4s" repeatCount="indefinite" begin="1s"/>
+            <animate attributeName="opacity" values="0.5;0" dur="3.4s" repeatCount="indefinite" begin="1s"/>
+          </circle>
+          <text x="88" y="40" text-anchor="middle" class="lbl lbl-ac">earnings</text>
+          <text x="228" y="86" text-anchor="middle" class="lbl lbl-ac">patents</text>
+          <text x="125" y="160" text-anchor="middle" class="lbl lbl-ac">urban</text>
+          <text x="278" y="216" text-anchor="middle" class="lbl lbl-ac">bio</text>
+          <line x1="22" y1="244" x2="338" y2="244" class="stroke-soft"/>
+          <text x="22" y="264" class="lbl">sources: arXiv &middot; SEC &middot; USPTO &middot; news &middot; on-chain &middot; gov</text>
+          <text x="22" y="280" class="lbl">a non-obvious correlation requires a search no human team would run</text>
+        </svg>
+        <div class="cap">Data points across unrelated domains; a correlation surfaces only when the search runs continuously and across every source at once.</div>
+      </div>
+    </div>
+    <div class="hero-meta rv d4">
+      <div><div class="k">Operation</div><div class="v">Continuous 24/7 &mdash; the engine proposes, tests, publishes, and retracts its own hypotheses.</div></div>
+      <div><div class="k">Scope</div><div class="v">Cross-domain correlation discovery across dozens of public data sources.</div></div>
+      <div><div class="k">Status</div><div class="v mono" style="color:var(--muted)">Early access opening &middot; 2026</div></div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <div class="section-head rv">
+      <div><span class="kick">What it does</span><h2 style="margin-top:18px">A telescope for hidden correlations.</h2></div>
+      <div class="lead">
+        <p>Most genuinely valuable discoveries live in the space between fields. A signal in one domain &mdash; earnings-call language, patent citation graphs, urban density &mdash; that predicts something in another. These correlations exist in the data; what doesn't exist is anyone with the time, breadth, or patience to look for them.</p>
+        <p>Pattern Hunter is that someone. It scans dozens of public data sources continuously, generates its own statistical hypotheses, runs falsification tests, and publishes both the findings and the dead ends. It never tires of the work, never gets bored of a domain, and never stops mid-investigation.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <div class="section-head rv">
+      <div><span class="kick">Product surface</span><h2 style="margin-top:18px">The product is the process.</h2></div>
+      <div class="lead">
+        <p>Most analytics products ship the answer and hide the work. Pattern Hunter does the opposite: the visible reasoning of the engine <em>is</em> the product. You watch it think, you see what it tried, you see what it rejected, and you can correct it.</p>
+      </div>
+    </div>
+    <div class="feature-grid rv d1">
+      <div class="feature"><div class="ft-num">01</div><div class="ft-t">Engine cockpit</div><div class="ft-d">A live view of the current hypothesis queue, active falsification tests, and confidence trajectory &mdash; what the engine is working on right now.</div></div>
+      <div class="feature"><div class="ft-num">02</div><div class="ft-t">Anomaly wall</div><div class="ft-d">A continuously updated list of statistical anomalies the engine has surfaced but not yet promoted to hypotheses &mdash; raw signal before interpretation.</div></div>
+      <div class="feature"><div class="ft-num">03</div><div class="ft-t">Contribution layer</div><div class="ft-d">Submit hypotheses, donate datasets, critique methodology. Confirmed contributions earn permanent attribution in the discovery's lineage.</div></div>
+      <div class="feature"><div class="ft-num">04</div><div class="ft-t">Discovery feed</div><div class="ft-d">Published findings with full methodology, dataset provenance, statistical detail, and an auto-generated counter-narrative attached to every claim.</div></div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <div class="section-head rv">
+      <div><span class="kick">Trust architecture</span><h2 style="margin-top:18px">Designed to be wrong, in public.</h2></div>
+      <div class="lead">
+        <p>The hard part of pattern discovery isn't finding correlations &mdash; any sufficiently broad scan will surface thousands. The hard part is distinguishing real signal from noise, and being honest about it when you can't. Pattern Hunter's surface is engineered around that distinction.</p>
+      </div>
+    </div>
+    <div class="twocol rv d1">
+      <div>
+        <h4>Auto counter-narratives</h4>
+        <p>Every published discovery ships with an automatically generated counter-narrative: the strongest alternative explanation, the most plausible confound, the data that doesn't fit. Not in an appendix &mdash; on the discovery card.</p>
+        <h4 style="margin-top:34px">Public hit-rate</h4>
+        <p>Every confirmed pattern is tracked over time. The page displays the engine's running hit-rate across all published findings. No hiding behind cherry-picked successes.</p>
+      </div>
+      <div>
+        <h4>The graveyard</h4>
+        <p>Patterns that were published, then contradicted by later data, are not deleted. They are moved to a publicly browsable graveyard with the original claim, the contradicting evidence, and a post-mortem. Retraction is part of the system, not an embarrassment.</p>
+        <h4 style="margin-top:34px">Methodology open by default</h4>
+        <p>Every discovery ships with dataset sources, statistical method, parameters, and the code that produced it. You can re-run the analysis. You can disagree with the choices. Both are intended.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <div class="section-head rv">
+      <div><span class="kick">Discoveries</span><h2 style="margin-top:18px">Representative findings.</h2></div>
+      <div class="lead">
+        <p>The following are illustrative of the kinds of cross-domain correlations Pattern Hunter is built to surface. Specific numbers are representative of the engine's intended output, not yet-confirmed findings.</p>
+      </div>
+    </div>
+    <div class="discover-list rv d1">
+      <div class="discover-item">
+        <div class="dt">Finance &middot; 6wk lag</div>
+        <div class="dh">Coffee mentions &rarr; tech layoffs.</div>
+        <div class="dd">When a tech CEO mentions "coffee" three or more times on a quarterly earnings call, the company's odds of announcing layoffs in the following five to seven weeks rises sharply over baseline.</div>
+        <div class="ds">r = 0.71 &middot; n = 420 &middot; p &lt; 0.01</div>
+      </div>
+      <div class="discover-item">
+        <div class="dt">Tech &middot; 90 day window</div>
+        <div class="dh">Patent citation velocity &rarr; acquisition signal.</div>
+        <div class="dd">When a mid-cap company's patents suddenly get cited three times more frequently by a large-cap in the same sector, an acquisition bid follows within ninety days in roughly two-thirds of cases.</div>
+        <div class="ds">68% hit-rate &middot; n = 214 &middot; 2018&ndash;2025</div>
+      </div>
+      <div class="discover-item">
+        <div class="dt">Urban &middot; 3 year horizon</div>
+        <div class="dh">Coffee shop density &rarr; gentrification.</div>
+        <div class="dd">When a US neighbourhood goes from zero to three or more specialty coffee shops within eighteen months, median home prices rise by an average of 23% over the following three years.</div>
+        <div class="ds">n = 340 zip codes</div>
+      </div>
+      <div class="discover-item">
+        <div class="dt">Biology &middot; 12mo lag</div>
+        <div class="dh">Citation graph anomalies &rarr; high-impact papers.</div>
+        <div class="dd">Newly published biology papers that draw citations from three or more previously-unconnected sub-fields within their first twelve months go on to be top-decile cited in their domain in roughly 70% of cases.</div>
+        <div class="ds">n = 1,840 papers &middot; arXiv + bioRxiv</div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <div class="section-head rv">
+      <div><span class="kick">Contribution</span><h2 style="margin-top:18px">A research process, not a black box.</h2></div>
+      <div class="lead">
+        <p>The engine is autonomous, but it is not closed. Any user &mdash; independent researcher, domain expert, motivated amateur &mdash; can propose hypotheses for testing, donate datasets the engine doesn't yet have access to, or critique the methodology of any published finding.</p>
+        <p>Contributions go through the same falsification suite as the engine's own hypotheses. Confirmed contributions are <em>permanently attributed</em> on the discovery card, with the contributor's name and the role their input played &mdash; flagged the anomaly, supplied the dataset, caught the methodological error.</p>
+        <p>This is not a forum. It is a real process with a real attribution model.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap" style="text-align:center">
+    <span class="kick rv">Currently warming up</span>
+    <h2 class="rv d1" style="margin-top:22px;font-family:var(--serif);font-weight:400;color:var(--ink);font-size:clamp(34px,5vw,58px);line-height:1.08;letter-spacing:-0.02em;max-width:18ch;margin-left:auto;margin-right:auto">The engine is <em>coming online</em>.</h2>
+    <p class="rv d2" style="margin-top:24px;max-width:50ch;margin-left:auto;margin-right:auto;font-size:18.5px">Request early access &mdash; be among the first to watch the system think.</p>
+    <div class="rv d3" style="margin-top:40px"><a class="cta-btn primary big" href="coming-soon.html">Try Hunter <span class="arr">&rarr;</span></a></div>
+  </div></section>
+
+  <section class="nextpage"><div class="wrap">
+    <div class="kk rv">Back to track</div>
+    <a class="rv d1" href="beings.html">AI Beings <span class="arr">&rarr;</span></a>
+  </div></section>
+</main>
+
+<footer><div class="wrap foot">
+  <div><div class="lg">Q<span>·</span>BASELINE</div>
+  <p class="status">Quantum software company. Happening Mathematics is an emerging framework, currently in development. © 2026.</p></div>
+  <div class="cols">
+    <div><div class="h">Program</div><a href="beings.html">AI Beings</a><a href="quantum.html">Quantum Integration</a><a href="time.html">Time Collapse</a></div>
+    <div><div class="h">Company</div><a href="#">Pattern Hunter</a><a href="#">About</a><a href="#">Contact</a></div>
+  </div>
+</div></footer>
+<script>
+  const hdr=document.getElementById('hdr');addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>30));
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:0.14});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

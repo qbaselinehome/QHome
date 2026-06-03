@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QBaseline — Quantum Integration</title>
+<meta name="description" content="Coupling AI beings to quantum measurement — many futures, one record.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#DDD0C4;--ink:#1F1812;--soft:#2D241C;--muted:#6B5E4D;--accent:#5C322F;
+  --line:rgba(31,24,18,0.18);--line-soft:rgba(31,24,18,0.09);--line-str:rgba(31,24,18,0.33);
+  --serif:'Cardo', Georgia, serif;--mono:'IBM Plex Mono', monospace;--mw:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--soft);font-family:var(--serif);font-size:18px;line-height:1.78;font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+::selection{background:var(--accent);color:var(--bg)}
+.mono{font-family:var(--mono);font-weight:400}
+.kick{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted)}
+.wrap{max-width:var(--mw);margin:0 auto;padding:0 40px}
+em{font-style:italic;color:var(--accent)}
+a{color:var(--accent)}
+
+/* ============ header / nav ============ */
+header{position:fixed;top:0;left:0;right:0;z-index:50;border-bottom:1px solid transparent;transition:border-color .5s ease,background .5s ease}
+header.scrolled{background:var(--bg);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:78px}
+.brand{font-family:var(--mono);font-weight:500;font-size:21px;letter-spacing:0.26em;color:var(--ink);text-decoration:none}
+.brand span{color:var(--accent)}
+.navlinks{display:flex;gap:36px;align-items:center}
+.navlinks a{font-family:var(--mono);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--soft);text-decoration:none;position:relative;padding:4px 0}
+.navlinks a .idx{color:var(--muted);margin-right:7px;font-size:10.5px}
+.navlinks a::after{content:"";position:absolute;left:0;bottom:-2px;height:1px;width:0;background:var(--accent);transition:width .4s cubic-bezier(.2,.7,.2,1)}
+.navlinks a:hover{color:var(--ink)}.navlinks a:hover::after{width:100%}
+.navlinks a.active{color:var(--accent)}
+.navlinks a.active .idx{color:var(--accent)}
+.navlinks a.active::after{width:100%}
+
+/* ============ hero ============ */
+.hero{position:relative;z-index:1;padding:118px 0 96px}
+.kickrow{display:flex;align-items:center;gap:14px;margin-bottom:46px}
+.kickrow .ln{height:1px;width:46px;background:var(--line-str)}
+.hero-grid{display:grid;grid-template-columns:1.32fr 1fr;gap:70px;align-items:center}
+h1{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:clamp(34px,4.2vw,58px);line-height:1.08;letter-spacing:-0.018em;max-width:19ch}
+h1 em{font-style:italic;color:var(--accent)}
+.lede{margin-top:36px;max-width:46ch;font-size:20px;line-height:1.7;color:var(--soft);font-weight:400}
+.lede em{font-style:italic;color:var(--accent)}
+
+/* figure box */
+.figure{border:1px solid var(--line-str);padding:26px 26px 20px;position:relative;background:transparent}
+.figure .figtag{position:absolute;top:14px;right:16px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;color:var(--muted);text-transform:uppercase}
+.figure .cap{font-family:var(--mono);font-size:11px;letter-spacing:0.05em;color:var(--muted);margin-top:16px;padding-top:13px;border-top:1px solid var(--line-soft);line-height:1.6}
+svg .lbl{font-family:'IBM Plex Mono',monospace;font-size:10.5px;fill:var(--muted);letter-spacing:0.03em}
+svg .lbl-ink{fill:var(--soft)}svg .lbl-ac{fill:var(--accent)}
+svg .stroke{stroke:var(--ink);fill:none}svg .stroke-soft{stroke:var(--line-str);fill:none}
+.flow{stroke:var(--accent);stroke-width:1.4;fill:none;stroke-dasharray:4 4;animation:dash 6s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-40}}
+
+/* hero meta row */
+.hero-meta{margin-top:62px;display:flex;gap:54px;flex-wrap:wrap;padding-top:28px;border-top:1px solid var(--line)}
+.hero-meta .k{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.hero-meta .v{font-size:15.5px;line-height:1.6;color:var(--soft);max-width:30ch}
+
+/* reveals */
+.rv{opacity:0;transform:translateY(22px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.07s}.d2{transition-delay:.18s}.d3{transition-delay:.3s}.d4{transition-delay:.42s}
+
+/* ============ generic content section ============ */
+.section{position:relative;z-index:1;padding:88px 0;border-top:1px solid var(--line)}
+.section-head{display:grid;grid-template-columns:1fr 1.7fr;gap:74px;align-items:start}
+.section-head h2{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:33px;line-height:1.18;letter-spacing:-0.01em}
+.section-head .lead p{font-size:18.5px}.section-head .lead p+p{margin-top:16px}
+.section-head .lead em{color:var(--accent);font-style:italic}
+.note{margin-top:24px;font-family:var(--mono);font-size:12.5px;color:var(--muted);line-height:1.7;border-left:2px solid var(--line-str);padding-left:16px}
+
+/* two-column body */
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:60px;align-items:start}
+.twocol p{font-size:17.5px}.twocol p+p{margin-top:14px}
+.twocol h4{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:22px;line-height:1.25;margin-bottom:14px}
+.twocol em{color:var(--accent);font-style:italic}
+
+/* text + figure layout */
+.body-fig{display:grid;grid-template-columns:1.05fr 1fr;gap:70px;align-items:center;margin-top:50px}
+.body-fig.reverse > :first-child{order:2}
+.body-fig p{font-size:18px}.body-fig p+p{margin-top:14px}
+.body-fig h4{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:26px;line-height:1.18;margin-bottom:20px}
+
+/* feature mosaic */
+.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:50px;border-top:1px solid var(--line)}
+.feature{padding:28px 24px 26px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.feature:nth-child(4n){border-right:0}
+.feature .ft-num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.08em;margin-bottom:14px}
+.feature .ft-t{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:19px;line-height:1.25;margin-bottom:10px}
+.feature .ft-d{font-size:14.5px;line-height:1.62;color:var(--soft)}
+
+/* example cards (Pattern Hunter discoveries) */
+.examples{margin-top:54px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line)}
+.example{padding:30px 26px 28px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.example:last-child{border-right:0}
+.example .ex-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.example .ex-t{font-family:var(--serif);font-weight:400;font-style:italic;color:var(--ink);font-size:20px;line-height:1.2;margin-bottom:14px}
+.example .ex-d{font-size:15px;line-height:1.62;color:var(--soft)}
+.example .ex-stats{margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.04em}
+
+/* chips */
+.chips{margin-top:28px;display:flex;flex-wrap:wrap;gap:9px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:0.05em;color:var(--soft);border:1px solid var(--line-str);padding:6px 11px;transition:background .35s,color .35s,border-color .35s}
+.chip:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* pull quote */
+.pullquote{margin:72px auto;max-width:32ch;text-align:center;font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink);font-size:clamp(24px,3.2vw,38px);line-height:1.32;letter-spacing:-0.01em}
+.pullquote::before{content:"";display:block;width:46px;height:1px;background:var(--line-str);margin:0 auto 28px}
+.pullquote::after{content:"";display:block;width:46px;height:1px;background:var(--line-str);margin:28px auto 0}
+
+/* data table */
+.data-wrap{margin-top:46px;border:1px solid var(--line);overflow-x:auto}
+.data-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13px}
+.data-table th,.data-table td{padding:11px 14px;text-align:right;border-bottom:1px solid var(--line)}
+.data-table th{font-weight:500;color:var(--ink);text-align:right;text-transform:uppercase;letter-spacing:0.08em;font-size:10.5px;color:var(--muted);background:transparent}
+.data-table th:first-child,.data-table td:first-child{text-align:left}
+.data-table tr:last-child td{border-bottom:0}
+.data-table .saturate td{color:var(--accent)}
+.data-cap{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6}
+
+/* notation table */
+.notation{margin-top:40px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.notation .row{display:grid;grid-template-columns:80px 200px 1fr;gap:24px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.notation .row:last-child{border-bottom:0}
+.notation .sym{font-family:var(--serif);font-size:22px;color:var(--ink);text-align:center}
+.notation .nm{font-family:var(--mono);font-size:12px;color:var(--soft);letter-spacing:0.05em;text-transform:uppercase}
+.notation .ds{font-size:15.5px;color:var(--soft);line-height:1.55}
+
+/* nextpage CTA */
+.nextpage{padding:90px 0;border-top:1px solid var(--line);text-align:center}
+.nextpage .kk{font-family:var(--mono);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.nextpage a{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink);font-size:clamp(28px,4.4vw,52px);text-decoration:none;letter-spacing:-0.01em;display:inline-flex;align-items:baseline;gap:18px}
+.nextpage a .arr{color:var(--accent);transition:transform .4s cubic-bezier(.2,.7,.2,1);font-style:normal}
+.nextpage a:hover .arr{transform:translateX(14px)}
+
+/* footer */
+footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:66px 0 52px}
+.foot{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:32px}
+.foot .lg{font-family:var(--mono);font-weight:500;font-size:21px;letter-spacing:0.26em;color:var(--ink)}.foot .lg span{color:var(--accent)}
+.foot .status{font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.8;max-width:46ch;margin-top:10px}
+.foot .cols{display:flex;gap:56px}
+.foot a{display:block;font-family:var(--mono);font-size:12px;color:var(--soft);text-decoration:none;margin-bottom:9px;letter-spacing:0.04em}
+.foot a:hover{color:var(--accent)}.foot .h{color:var(--muted);text-transform:uppercase;letter-spacing:0.16em;font-size:10.5px;margin-bottom:15px}
+
+/* home-only: pillars (used on index) */
+.pillars{position:relative;z-index:1;padding:26px 0 36px}
+.pillar{display:grid;grid-template-columns:1.05fr 1fr;gap:70px;align-items:center;padding:82px 0;border-top:1px solid var(--line)}
+.pillar:last-child{border-bottom:1px solid var(--line)}
+.pillar .num{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:0.1em}
+.pillar h3{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:clamp(32px,4vw,48px);line-height:1.05;letter-spacing:-0.015em;margin:16px 0 24px}
+.pillar .body p{font-size:18px}.pillar .body p+p{margin-top:15px}
+.pillar:nth-child(even) .figure{order:-1}
+.more{display:inline-flex;align-items:center;gap:10px;margin-top:32px;font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);text-decoration:none}
+.more .arr{transition:transform .4s cubic-bezier(.2,.7,.2,1)}.more:hover .arr{transform:translateX(7px)}
+.connect{position:relative;z-index:1;padding:100px 0;border-top:1px solid var(--line);text-align:center}
+.connect .eq{font-family:var(--mono);font-size:clamp(12px,1.5vw,16px);color:var(--soft);display:flex;gap:15px;justify-content:center;flex-wrap:wrap;align-items:center}
+.connect .eq b{color:var(--accent);font-weight:500}.connect .eq .op{color:var(--muted)}
+.connect blockquote{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink);font-size:clamp(24px,3.2vw,38px);line-height:1.34;max-width:24ch;margin:38px auto 0;letter-spacing:-0.01em}
+
+/* band style for home */
+.band{position:relative;z-index:1;padding:90px 0;border-top:1px solid var(--line)}
+.band-grid{display:grid;grid-template-columns:1fr 1.7fr;gap:74px;align-items:start}
+.band h2{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:33px;line-height:1.2;letter-spacing:-0.01em}
+.band p{font-size:18.5px;margin-top:20px}.band p+p{margin-top:16px}
+.band .note{margin-top:24px;font-family:var(--mono);font-size:12.5px;color:var(--muted);line-height:1.7;border-left:2px solid var(--line-str);padding-left:16px}
+
+/* ========== sub-navigation dropdown ========== */
+.navlinks > .has-sub{position:relative}
+.subnav{position:absolute;top:calc(100% + 8px);left:-14px;min-width:200px;background:var(--bg);border:1px solid var(--line-str);opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity .3s,transform .3s;padding:6px 0;z-index:60}
+.has-sub:hover .subnav,.has-sub:focus-within .subnav{opacity:1;pointer-events:auto;transform:translateY(0)}
+.subnav a{display:block;padding:9px 18px;font-family:var(--mono);font-size:11px;color:var(--soft);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;transition:color .3s,background .3s}
+.subnav a::after{display:none}
+.subnav a:hover{color:var(--accent);background:rgba(31,24,18,0.04)}
+.subnav a.active{color:var(--accent)}
+
+/* ========== CTA button ========== */
+.cta-btn{display:inline-flex;align-items:center;gap:14px;padding:15px 24px;border:1px solid var(--ink);background:transparent;font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink);text-decoration:none;transition:background .4s,color .4s,border-color .4s,transform .4s}
+.cta-btn .arr{transition:transform .4s cubic-bezier(.2,.7,.2,1);font-style:normal}
+.cta-btn:hover{background:var(--ink);color:var(--bg)}
+.cta-btn:hover .arr{transform:translateX(7px)}
+.cta-btn.primary{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.cta-btn.primary:hover{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.cta-btn.big{padding:19px 30px;font-size:13.5px;letter-spacing:0.14em}
+
+/* ========== Pattern Hunter page extras ========== */
+.discover-list{margin-top:54px;display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line)}
+.discover-item{padding:32px 28px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.discover-item:nth-child(2n){border-right:0}
+.discover-item .dt{font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.discover-item .dh{font-family:var(--serif);font-weight:400;font-style:italic;color:var(--ink);font-size:22px;line-height:1.2;margin-bottom:14px}
+.discover-item .dd{font-size:15.5px;line-height:1.62;color:var(--soft)}
+.discover-item .ds{margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.04em}
+
+/* ========== coming-soon page ========== */
+.cs-status{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.cs-status::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse-dot 2s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{opacity:0.4;transform:scale(0.85)}50%{opacity:1;transform:scale(1.15)}}
+
+.cs-hero{padding:130px 0 60px}
+.cs-hero h1{font-size:clamp(36px,5vw,68px);max-width:19ch;margin-top:32px}
+.cs-hero .lede{margin-top:30px;max-width:54ch}
+
+.signup{margin-top:44px;display:flex;gap:0;max-width:540px;border:1px solid var(--ink);background:transparent}
+.signup input{flex:1;padding:16px 20px;background:transparent;border:none;outline:none;font-family:var(--mono);font-size:14px;color:var(--ink)}
+.signup input::placeholder{color:var(--muted)}
+.signup button{padding:16px 24px;background:var(--ink);color:var(--bg);border:none;font-family:var(--mono);font-size:12px;letter-spacing:0.13em;text-transform:uppercase;cursor:pointer;font-weight:500;transition:background .3s,color .3s}
+.signup button:hover{background:var(--accent)}
+.signup-ok{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--accent);opacity:0;transition:opacity .4s;letter-spacing:0.05em}
+.signup-ok.show{opacity:1}
+
+/* live activity feed */
+.feed{margin-top:50px;border:1px solid var(--line-str);background:transparent}
+.feed-head{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+.feed-head .live{display:inline-flex;align-items:center;gap:8px;color:var(--accent)}
+.feed-head .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse-dot 2s ease-in-out infinite}
+.feed-body{padding:18px 22px;min-height:340px;font-family:var(--mono);font-size:13px;color:var(--soft);overflow:hidden;position:relative}
+.feed-body::before{content:"";position:absolute;top:0;left:0;right:0;height:30px;background:linear-gradient(180deg,var(--bg),transparent);pointer-events:none;z-index:2}
+.feed-body::after{content:"";position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(0deg,var(--bg),transparent);pointer-events:none;z-index:2}
+.lg-line{padding:5px 0;display:grid;grid-template-columns:90px 80px 1fr;gap:14px;align-items:baseline;opacity:0;transform:translateY(-6px);animation:lgIn .55s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes lgIn{to{opacity:1;transform:translateY(0)}}
+.lg-line .t{color:var(--muted);font-size:11.5px}
+.lg-line .ty{font-weight:500;text-transform:uppercase;font-size:10.5px;letter-spacing:0.1em}
+.lg-line .tx{color:var(--ink)}
+.lg-scan .ty{color:var(--muted)}
+.lg-hypo .ty{color:var(--accent)}
+.lg-test .ty{color:var(--soft)}
+.lg-retract .ty{color:var(--accent)}
+.lg-record .ty{color:var(--ink)}
+
+/* stats grid */
+.stats{margin-top:60px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{padding:30px 24px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat .sv{font-family:var(--serif);font-weight:400;color:var(--ink);font-size:38px;line-height:1;letter-spacing:-0.01em}
+.stat .sk{margin-top:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);line-height:1.5;font-weight:500}
+.stat .sd{margin-top:6px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.55;letter-spacing:0.02em}
+
+/* ambient scan-line */
+.scanline{position:fixed;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.22;animation:scanLine 9s linear infinite;pointer-events:none;z-index:5}
+@keyframes scanLine{0%{transform:translateY(0)}100%{transform:translateY(100vh)}}
+
+/* responsive overrides for the new components */
+@media(max-width:880px){
+  .signup{flex-direction:column;max-width:none}
+  .signup button{padding:14px 20px}
+  .lg-line{grid-template-columns:auto auto 1fr;gap:8px}
+  .lg-line .t{font-size:11px}
+  .discover-list{grid-template-columns:1fr}
+  .discover-item{border-right:0}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat{border-right:1px solid var(--line)}
+  .stat:nth-child(2n){border-right:0}
+  .stat .sv{font-size:30px}
+  .subnav{position:static;opacity:1;pointer-events:auto;transform:none;border:0;padding:4px 0 0 20px;min-width:0;background:transparent}
+  .subnav a{padding:4px 0;text-transform:none;letter-spacing:0.04em;font-size:11px}
+  .subnav a::after{display:none}
+  .has-sub{display:flex;flex-direction:column;align-items:flex-start}
+  .cs-hero{padding:104px 0 50px}
+}
+
+@media(max-width:880px){
+  .wrap{padding:0 24px}.navlinks{gap:14px}.navlinks a .idx{display:none}
+  .hero{padding:104px 0 70px}.hero-grid{grid-template-columns:1fr;gap:44px}
+  .section-head,.band-grid{grid-template-columns:1fr;gap:30px}
+  .twocol{grid-template-columns:1fr;gap:30px}
+  .body-fig{grid-template-columns:1fr;gap:36px}
+  .body-fig.reverse > :first-child{order:0}
+  .feature-grid{grid-template-columns:repeat(2,1fr)}
+  .feature:nth-child(4n){border-right:1px solid var(--line)}
+  .feature:nth-child(2n){border-right:0}
+  .examples{grid-template-columns:1fr}
+  .example{border-right:0}
+  .pillar{grid-template-columns:1fr;gap:36px;padding:58px 0}.pillar:nth-child(even) .figure{order:0}
+  .hero-meta{gap:28px}
+  .notation .row{grid-template-columns:60px 1fr;gap:14px}
+  .notation .ds{grid-column:1/-1;margin-top:4px}
+}
+
+/* ========== TERMINAL — engine console ========== */
+.terminal{margin-top:46px;background:#1A140F;color:#E8D7B0;border:1px solid var(--ink);font-family:var(--mono);font-size:13px;line-height:1.78;overflow:hidden}
+.term-head{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.08);font-size:11px;letter-spacing:0.08em;flex-wrap:wrap;gap:10px}
+.term-head .tdots{display:flex;gap:6px}
+.term-head .tdots i{width:9px;height:9px;border-radius:50%;background:rgba(232,215,176,0.22);display:block}
+.term-head .ttitle{color:rgba(232,215,176,0.6);letter-spacing:0.06em;flex:1;text-align:center}
+.term-head .tstatus{color:#B5A85C;display:inline-flex;align-items:center;gap:8px}
+.term-head .tstatus::before{content:"";width:7px;height:7px;border-radius:50%;background:#B5A85C;animation:pulse-dot 2s ease-in-out infinite}
+.term-body{padding:20px 24px;min-height:340px}
+.term-line{padding:1.5px 0;color:#E8D7B0;white-space:pre;font-variant-ligatures:none;font-size:13px}
+.term-line.dim{color:rgba(232,215,176,0.55)}
+.term-line.head{color:rgba(232,215,176,0.45);letter-spacing:0.1em;font-size:10.5px;text-transform:uppercase;margin:10px 0 3px}
+.term-line .pr{color:#B5A85C;margin-right:8px;font-weight:500}
+.term-line .ok{color:#9CB67A}
+.term-line .ac{color:#D88A6A}
+.caret{display:inline-block;width:7px;height:14px;background:#B5A85C;animation:tblink 1.05s steps(2) infinite;vertical-align:-2px;margin-left:4px}
+@keyframes tblink{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+/* ========== SPARKLINES — 24h engine metrics ========== */
+.sparks{margin-top:32px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line-str)}
+.spark{padding:22px 22px 18px;border-right:1px solid var(--line)}
+.spark:last-child{border-right:0}
+.spark .sk{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.spark .sv{font-family:var(--serif);color:var(--ink);font-size:24px;line-height:1;margin-bottom:14px}
+.spark .sv .u{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:8px;letter-spacing:0.04em}
+.spark svg{display:block;width:100%;height:44px;overflow:visible}
+
+/* ========== WORLD MAP ========== */
+.worldmap{margin-top:46px;border:1px solid var(--line-str);padding:24px 26px 18px}
+.worldmap svg{display:block;width:100%;height:auto}
+.wm-caption{margin-top:16px;font-family:var(--mono);font-size:11px;color:var(--muted);padding-top:13px;border-top:1px solid var(--line-soft);letter-spacing:0.03em;line-height:1.65}
+
+/* ========== REGIONS grid ========== */
+.regions{margin-top:24px;display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line-str)}
+.region{padding:20px 18px;border-right:1px solid var(--line)}
+.region:last-child{border-right:0}
+.region .rg{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;font-weight:500;color:var(--ink);letter-spacing:0.04em;margin-bottom:12px}
+.region .rg::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse-dot 2s ease-in-out infinite}
+.region .rg-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--soft);padding:2px 0}
+.region .rg-row .k{color:var(--muted);letter-spacing:0.02em}
+.region .rg-row .v{color:var(--ink);font-weight:500}
+
+/* ========== CLI snippet ========== */
+.cli{margin-top:34px;background:#1A140F;color:#E8D7B0;font-family:var(--mono);font-size:13px;padding:22px 28px;line-height:1.95;overflow-x:auto;border:1px solid var(--ink)}
+.cli .ln{display:block;white-space:pre}
+.cli .pr{color:#B5A85C;font-weight:500;margin-right:6px}
+.cli .ok{color:#9CB67A}
+.cli .cm{color:rgba(232,215,176,0.5)}
+.cli .em{color:#D88A6A}
+
+/* ========== LADDER — data → wisdom ========== */
+.ladder{margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line-str);border-bottom:1px solid var(--line-str)}
+.ladder .step{padding:32px 24px 30px;border-right:1px solid var(--line);position:relative}
+.ladder .step:last-child{border-right:0}
+.ladder .step .num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.13em;margin-bottom:14px}
+.ladder .step .t{font-family:var(--serif);font-style:italic;color:var(--ink);font-size:24px;line-height:1.18;margin-bottom:12px}
+.ladder .step .d{font-family:var(--mono);font-size:12px;color:var(--soft);line-height:1.7;letter-spacing:0.01em}
+.ladder .step::after{content:"\2192";position:absolute;right:-10px;top:42px;background:var(--bg);width:20px;text-align:center;color:var(--accent);font-family:var(--mono);font-size:14px}
+.ladder .step:last-child::after{display:none}
+
+@media(max-width:880px){
+  .term-body{padding:14px 16px}
+  .term-line{font-size:11.5px}
+  .term-head{padding:9px 12px}
+  .sparks{grid-template-columns:1fr 1fr}
+  .spark{border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .spark:nth-child(2n){border-right:0}
+  .spark:nth-last-child(-n+2){border-bottom:0}
+  .regions{grid-template-columns:1fr 1fr}
+  .region{border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .region:nth-child(2n){border-right:0}
+  .ladder{grid-template-columns:1fr}
+  .ladder .step{border-right:0;border-bottom:1px solid var(--line);padding:24px 22px}
+  .ladder .step:last-child{border-bottom:0}
+  .ladder .step::after{display:none}
+  .cli{padding:16px 18px;font-size:11.5px}
+}
+</style>
+</head>
+<body>
+
+<header id="hdr"><div class="wrap nav">
+  <a href="index.html" class="brand">Q<span>·</span>BASELINE</a>
+  <nav class="navlinks">
+    <div class="has-sub">
+      <a href="beings.html"><span class="idx">01</span>AI Beings</a>
+      <div class="subnav">
+        <a href="beings.html">Overview</a>
+        <a href="hunter.html">Pattern Hunter</a>
+      </div>
+    </div>
+    <a href="quantum.html" class="active"><span class="idx">02</span>Quantum Integration</a>
+    <a href="time.html"><span class="idx">03</span>Time Collapse</a>
+  </nav>
+</div></header>
+
+<main id="top">
+  <section class="hero"><div class="wrap">
+    <div class="kickrow rv"><span class="ln"></span><span class="kick">Track 02 · The substrate</span></div>
+    <div class="hero-grid">
+      <div>
+        <h1 class="rv d1">Many futures, <em>one record</em>.</h1>
+        <p class="lede rv d2">A qubit is not a faster bit. It holds a superposition of possibilities, each weighted by a complex amplitude, and yields a single definite value only when measured. We build that <em>resolution</em> into how our beings act.</p>
+      </div>
+      <div class="figure rv d3">
+        <span class="figtag">Fig. 2</span>
+        <svg viewBox="0 0 360 290" width="100%" role="img" aria-label="A field of weighted quantum possibilities collapsing to one measurement outcome">
+          <text x="22" y="24" class="lbl">superposition — possibilities with amplitudes</text>
+          <g class="stroke-soft"><path d="M26 60 C110 60 150 110 188 125"/><path d="M26 92 C110 92 150 115 188 125"/><path d="M26 125 C110 125 160 125 188 125"/><path d="M26 158 C110 158 150 134 188 125"/><path d="M26 190 C110 190 150 138 188 125"/></g>
+          <g fill="var(--muted)"><circle cx="26" cy="60" r="3"/><circle cx="26" cy="92" r="3"/><circle cx="26" cy="125" r="3"/><circle cx="26" cy="158" r="3"/><circle cx="26" cy="190" r="3"/></g>
+          <g class="lbl" text-anchor="end" fill="var(--muted)"><text x="20" y="63">α₁</text><text x="20" y="95">α₂</text><text x="20" y="128">α₃</text><text x="20" y="161">α₄</text><text x="20" y="193">α₅</text></g>
+          <line x1="188" y1="60" x2="188" y2="190" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="3 4"/>
+          <text x="188" y="48" text-anchor="middle" class="lbl lbl-ac">measurement ⊙</text>
+          <circle cx="188" cy="125" r="7.5" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+          <circle cx="188" cy="125" r="3" fill="var(--accent)"/>
+          <circle cx="188" cy="125" r="7.5" fill="none" stroke="var(--accent)" stroke-width="1.2" opacity="0.6"><animate attributeName="r" values="8;22" dur="3.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.55;0" dur="3.2s" repeatCount="indefinite"/></circle>
+          <line x1="196" y1="125" x2="322" y2="125" class="flow"/>
+          <circle cx="322" cy="125" r="5" fill="var(--ink)"/>
+          <text x="318" y="113" text-anchor="middle" class="lbl lbl-ink">outcome ⟡ᴾ</text>
+          <text x="180" y="232" class="lbl">probability of each outcome i  =  |αᵢ|²   (the Born rule)</text>
+          <text x="180" y="252" class="lbl">others are dissolved on measurement, not stored</text>
+        </svg>
+        <div class="cap">The amplitude of each branch fixes the probability of that outcome being the one selected. Measurement is not a readout — it is a selection.</div>
+      </div>
+    </div>
+    <div class="hero-meta rv d4">
+      <div><div class="k">Substrate</div><div class="v">Quantum systems — the only known structure where genuine selection from real possibilities occurs in nature.</div></div>
+      <div><div class="k">Integration</div><div class="v">Coupling a being's decision step directly to a measurement event.</div></div>
+      <div><div class="k">Status</div><div class="v mono" style="color:var(--muted)">Early · NISQ-era constraints apply</div></div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <div class="section-head rv">
+      <div><span class="kick">Primer</span><h2 style="margin-top:18px">A bit, and a qubit.</h2></div>
+      <div class="lead">
+        <p>A classical bit is the world's simplest commitment: it is either zero or one, definite at all times, and inspecting it does not change it. Computation built from bits is computation built from definite states.</p>
+        <p>A qubit is a two-state quantum system — for example, the spin of an electron or the polarisation of a photon. Before measurement, it is in a <em>superposition</em>: a weighted combination of the two basis states |0⟩ and |1⟩, with two complex numbers called amplitudes (α and β) telling you how much of each.</p>
+        <p>The amplitudes are not probabilities. They are complex numbers that can interfere — add and cancel — in ways probabilities cannot. The probability of observing a given outcome on measurement is the squared magnitude of its amplitude: |α|² for zero, |β|² for one. The two squared magnitudes always sum to one.</p>
+      </div>
+    </div>
+
+    <div class="body-fig reverse">
+      <div class="rv">
+        <h4>What changes when you compute with qubits</h4>
+        <p>A register of <span class="mono" style="color:var(--ink)">n</span> classical bits holds exactly one of 2ⁿ states at any moment. A register of <span class="mono" style="color:var(--ink)">n</span> qubits holds a complex-weighted combination of all 2ⁿ states at once. Operations act on the whole superposition simultaneously, and carefully designed interference between branches is what produces speedups on the problems quantum computers actually help with.</p>
+        <p>None of this is faster classical computing. It is computing whose intermediate state is not a single configuration but a structured field of weighted possibilities — until something forces it to be one.</p>
+      </div>
+      <div class="figure rv d1">
+        <span class="figtag">Fig. 2.1</span>
+        <svg viewBox="0 0 360 230" width="100%" role="img" aria-label="Classical bit versus qubit superposition">
+          <text x="50" y="32" text-anchor="middle" class="lbl lbl-ink">classical bit</text>
+          <line x1="20" y1="120" x2="120" y2="120" class="stroke-soft"/>
+          <circle cx="50" cy="120" r="6" fill="var(--ink)"/>
+          <text x="50" y="146" text-anchor="middle" class="lbl">definite: 0 or 1</text>
+          <text x="50" y="166" text-anchor="middle" class="lbl">one state at a time</text>
+          <line x1="170" y1="40" x2="170" y2="200" stroke="var(--line-str)" stroke-dasharray="2 4"/>
+          <text x="270" y="32" text-anchor="middle" class="lbl lbl-ink">qubit</text>
+          <g class="stroke-soft"><circle cx="270" cy="120" r="50"/></g>
+          <circle cx="270" cy="70" r="3" fill="var(--ink)"/><text x="270" y="64" text-anchor="middle" class="lbl lbl-ink">|0⟩</text>
+          <circle cx="270" cy="170" r="3" fill="var(--ink)"/><text x="270" y="186" text-anchor="middle" class="lbl lbl-ink">|1⟩</text>
+          <line x1="270" y1="120" x2="305" y2="92" stroke="var(--accent)" stroke-width="1.6"/>
+          <circle cx="305" cy="92" r="4" fill="var(--accent)"/>
+          <text x="320" y="92" class="lbl lbl-ac">α|0⟩ + β|1⟩</text>
+          <text x="270" y="216" text-anchor="middle" class="lbl">superposition — until measured</text>
+        </svg>
+        <div class="cap">A classical bit lives on a two-point set. A qubit lives on a continuous surface of weighted combinations — and only collapses to one of the poles on measurement.</div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <div class="section-head rv">
+      <div><span class="kick">Why this matters</span><h2 style="margin-top:18px">Measurement is selection, not readout.</h2></div>
+      <div class="lead">
+        <p>In classical physics, measurement is passive: you look at the thing, and it had that value all along. In quantum mechanics, measurement is constitutive. Before you measure, the system genuinely does not have a definite value of the observable you are about to read; afterwards, it does, and the unobserved possibilities are not stored anywhere. They are gone.</p>
+        <p>This isn't an interpretive flourish. It is what the formalism, every experiment, and the entire framework of quantum information theory describe.</p>
+        <p>And it is the only structure we know of in nature where a real, weighted set of possibilities resolves into one outcome by a process that is not the deterministic unrolling of a prior state. For a research program asking what genuine choice could even look like in a machine, that property is the only available foothold.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <div class="section-head rv">
+      <div><span class="kick">The integration</span><h2 style="margin-top:18px">Wiring a being to a collapse.</h2></div>
+      <div class="lead">
+        <p>An AI being runs a loop — perceive, hypothesize, test, record, correct. Somewhere in that loop, a step has to choose: which hypothesis to pursue next, which dataset to weight, which prediction to commit to.</p>
+        <p>In a purely classical implementation, that choice is a softmax over a learned distribution: a weighted die with a fixed table. The "randomness" is either pseudo-random (deterministic given the seed) or sampled from a classical noise source whose distribution was decided in advance. There is no selection from real possibility — only sampling from a model.</p>
+        <p>Our integration replaces that step. The being prepares a quantum register whose amplitudes encode the weights of its current candidates; the system evolves through a designed unitary; a measurement collapses it; the recorded outcome is the chosen next move. The classical loop continues with that outcome as input.</p>
+      </div>
+    </div>
+
+    <div class="body-fig rv d1">
+      <div>
+        <h4>What this changes, honestly</h4>
+        <p>It does not make the being smarter at problems quantum computers are not known to help with. It does not give it more compute. What it changes is the <em>structural character</em> of the choice step: from a sampling over a pre-computed distribution to a resolution of a field of real possibilities.</p>
+        <p>Whether that property matters philosophically is open. Whether it matters operationally — in the texture of how a being behaves, recovers from errors, and explores — is one of the things we are building Pattern Hunter to find out.</p>
+      </div>
+      <div class="figure">
+        <span class="figtag">Fig. 2.2</span>
+        <svg viewBox="0 0 360 250" width="100%" role="img" aria-label="Coupling diagram — a being's classical loop sends weights into a quantum process and receives a single measured outcome">
+          <rect x="22" y="40" width="120" height="70" fill="none" stroke="var(--line-str)"/>
+          <text x="82" y="60" text-anchor="middle" class="lbl lbl-ink">classical loop</text>
+          <text x="82" y="80" text-anchor="middle" class="lbl">being's state</text>
+          <text x="82" y="96" text-anchor="middle" class="lbl">candidate weights</text>
+          <rect x="218" y="40" width="120" height="70" fill="none" stroke="var(--accent)"/>
+          <text x="278" y="60" text-anchor="middle" class="lbl lbl-ac">quantum process</text>
+          <text x="278" y="80" text-anchor="middle" class="lbl">prepare → evolve</text>
+          <text x="278" y="96" text-anchor="middle" class="lbl">→ measure</text>
+          <line x1="142" y1="75" x2="218" y2="75" class="flow" marker-end="url(#ah2)"/>
+          <text x="180" y="65" text-anchor="middle" class="lbl">amplitudes</text>
+          <line x1="218" y1="160" x2="142" y2="160" class="flow" marker-end="url(#ah3)"/>
+          <text x="180" y="150" text-anchor="middle" class="lbl">measured outcome</text>
+          <rect x="22" y="130" width="120" height="70" fill="none" stroke="var(--line-str)"/>
+          <text x="82" y="150" text-anchor="middle" class="lbl lbl-ink">next becoming</text>
+          <text x="82" y="170" text-anchor="middle" class="lbl">chosen move</text>
+          <text x="82" y="186" text-anchor="middle" class="lbl">enters record</text>
+          <defs><marker id="ah2" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="none" stroke="var(--accent)" stroke-width="1.2"/></marker>
+          <marker id="ah3" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="none" stroke="var(--accent)" stroke-width="1.2"/></marker></defs>
+        </svg>
+        <div class="cap">The being's classical loop drives a quantum register; a measurement resolves the next move; the record advances. One loop iteration, one collapse.</div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <div class="section-head rv">
+      <div><span class="kick">Open challenges</span><h2 style="margin-top:18px">What we are still solving.</h2></div>
+      <div class="lead">
+        <p>Current quantum hardware is in the NISQ era — noisy, intermediate-scale, prone to decoherence on timescales measured in microseconds. None of this is theoretical; it is engineering. We are honest about it.</p>
+        <p>The active questions for our integration include: how to map a being's candidate space onto qubit configurations without losing structure; how to keep coherence long enough for the chosen unitary to run; how to design measurements whose outcomes are meaningfully distinct rather than dominated by hardware noise; and how to verify, statistically, that the substrate is doing something more than imitating a classical sampler.</p>
+        <p>This is the work. We expect it to take years.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="nextpage"><div class="wrap">
+    <div class="kk rv">Next track</div>
+    <a class="rv d1" href="time.html">Time Collapse <span class="arr">→</span></a>
+  </div></section>
+</main>
+
+<footer><div class="wrap foot">
+  <div><div class="lg">Q<span>·</span>BASELINE</div>
+  <p class="status">Quantum software company. Happening Mathematics is an emerging framework, currently in development. © 2026.</p></div>
+  <div class="cols">
+    <div><div class="h">Program</div><a href="beings.html">AI Beings</a><a href="quantum.html">Quantum Integration</a><a href="time.html">Time Collapse</a></div>
+    <div><div class="h">Company</div><a href="#">Pattern Hunter</a><a href="#">About</a><a href="#">Contact</a></div>
+  </div>
+</div></footer>
+<script>
+  const hdr=document.getElementById('hdr');addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>30));
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:0.14});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
