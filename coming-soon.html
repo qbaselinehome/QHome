@@ -175,6 +175,8 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:66px
 /* ========== sub-navigation dropdown ========== */
 .navlinks > .has-sub{position:relative}
 .subnav{position:absolute;top:calc(100% + 8px);left:-14px;min-width:200px;background:var(--bg);border:1px solid var(--line-str);opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity .3s,transform .3s;padding:6px 0;z-index:60}
+/* invisible bridge over the 8px gap so the dropdown stays open while the cursor crosses it */
+.subnav::before{content:"";position:absolute;top:-12px;left:0;right:0;height:12px}
 .has-sub:hover .subnav,.has-sub:focus-within .subnav{opacity:1;pointer-events:auto;transform:translateY(0)}
 .subnav a{display:block;padding:9px 18px;font-family:var(--mono);font-size:11px;color:var(--soft);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;transition:color .3s,background .3s}
 .subnav a::after{display:none}
