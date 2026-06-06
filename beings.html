@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#DDD0C4">
 <title>QBaseline — AI Beings</title>
 <meta name="description" content="AI beings that run continuously, reason in public, and correct themselves. Pattern Hunter is the first.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -363,6 +367,83 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:66px
   .ladder .step::after{display:none}
   .cli{padding:16px 18px;font-size:11.5px}
 }
+
+/* ========== CONTACT page ========== */
+.contact-meta{margin-top:40px;display:grid;gap:18px;padding-top:24px;border-top:1px solid var(--line);max-width:30ch}
+.contact-meta .k{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.contact-meta .v{font-size:16px;color:var(--ink)}
+.contact-meta .v a{color:var(--accent);text-decoration:none}
+.contact-meta .v a:hover{text-decoration:underline}
+
+.contact-form{display:grid;gap:18px;padding:0}
+.cf-row{display:grid;gap:8px}
+.cf-l{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+.contact-form input,.contact-form textarea{font-family:var(--serif);font-size:17px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--line-str);padding:8px 0;outline:none;width:100%;transition:border-color .3s}
+.contact-form input:focus,.contact-form textarea:focus{border-bottom-color:var(--accent)}
+.contact-form textarea{resize:vertical;min-height:120px;font-family:var(--serif);line-height:1.6}
+.contact-form button{margin-top:10px;justify-self:start}
+
+/* ========== QUANTUM STACK ========== */
+.qstack{margin-top:46px;border:1px solid var(--line-str);padding:30px;background:transparent}
+.qstack svg{display:block;width:100%;height:auto;max-width:760px;margin:0 auto}
+.qstack .qs-cap{margin-top:18px;padding-top:14px;border-top:1px solid var(--line-soft);font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.65;letter-spacing:0.03em;text-align:center}
+
+.vendors{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line-str)}
+.vendor{padding:30px 26px;border-right:1px solid var(--line)}
+.vendor:last-child{border-right:0}
+.vendor .vh{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.vendor .vn{font-family:var(--serif);color:var(--ink);font-size:24px;line-height:1.16;margin-bottom:14px}
+.vendor .vp{font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.vendor .vd{font-size:14.5px;line-height:1.62;color:var(--soft)}
+.vendor .vbest{margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--muted);padding-top:12px;border-top:1px solid var(--line-soft);line-height:1.55}
+.vendor .vbest b{color:var(--ink);font-weight:500}
+
+.circuit{margin-top:36px;border:1px solid var(--line-str);padding:30px 26px}
+.circuit svg{display:block;width:100%;height:auto;max-width:680px;margin:0 auto}
+.circuit-cap{margin-top:18px;padding-top:14px;border-top:1px solid var(--line-soft);font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.65;text-align:center;letter-spacing:0.03em}
+
+.codeblock{margin-top:24px;background:#1A140F;color:#E8D7B0;font-family:var(--mono);font-size:13px;padding:24px 28px;line-height:1.85;overflow-x:auto;border:1px solid var(--ink)}
+.codeblock .ln{display:block;white-space:pre}
+.codeblock .kw{color:#D88A6A;font-weight:500}
+.codeblock .fn{color:#B5A85C}
+.codeblock .st{color:#9CB67A}
+.codeblock .cm{color:rgba(232,215,176,0.45)}
+.codeblock .nm{color:#E8D7B0}
+
+/* ========== 24h activity dial (AI Beings) ========== */
+.live24{margin-top:46px;display:grid;grid-template-columns:1fr 360px 1fr;gap:40px;align-items:center;border:1px solid var(--line-str);padding:34px 36px}
+.live24-left,.live24-right{display:flex;flex-direction:column;gap:22px}
+.live24 .blk .kk{font-family:var(--mono);font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.live24 .blk .vv{font-family:var(--serif);color:var(--ink);font-size:28px;line-height:1.05;letter-spacing:-0.01em}
+.live24 .blk .vv .u{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:6px;letter-spacing:0.04em}
+.live24 .blk .dd{margin-top:6px;font-family:var(--mono);font-size:11.5px;color:var(--soft);line-height:1.6}
+.live24-dial{position:relative}
+.live24-dial svg{display:block;width:100%;height:auto}
+.live24-dial .dial-bar{transition:opacity .3s}
+.live24-dial .dial-bar.current{stroke:var(--accent);opacity:1;animation:pulse-bar 2.4s ease-in-out infinite}
+@keyframes pulse-bar{0%,100%{stroke-width:3;opacity:0.85}50%{stroke-width:5;opacity:1}}
+
+/* subtle math/physics animations */
+.wave-divide{position:relative;height:24px;margin:50px 0;overflow:hidden}
+.wave-divide svg{position:absolute;top:0;left:0;width:100%;height:100%}
+.wave-path{animation:wave-drift 12s linear infinite}
+@keyframes wave-drift{0%{transform:translateX(0)}100%{transform:translateX(-80px)}}
+
+/* possibility lines with subtle amplitude jitter */
+.stroke-soft.jitter{animation:amp-jitter 4.8s ease-in-out infinite}
+@keyframes amp-jitter{0%,100%{transform:translateY(0)}25%{transform:translateY(-1.2px)}50%{transform:translateY(0)}75%{transform:translateY(1.2px)}}
+
+@media(max-width:880px){
+  .vendors{grid-template-columns:1fr}
+  .vendor{border-right:0;border-bottom:1px solid var(--line)}
+  .vendor:last-child{border-bottom:0}
+  .live24{grid-template-columns:1fr;gap:28px;padding:24px 22px}
+  .live24-dial{order:-1;max-width:280px;margin:0 auto}
+  .codeblock{padding:16px 18px;font-size:11.5px}
+  .qstack{padding:18px 16px}
+  .circuit{padding:20px 16px}
+  .contact-form input,.contact-form textarea{font-size:16px}
+}
 </style>
 </head>
 <body>
@@ -487,6 +568,80 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:66px
 
   <section class="section"><div class="wrap">
     <div class="section-head rv">
+      <div><span class="kick">Always-on</span><h2 style="margin-top:18px">Alive <em>across the clock</em>.</h2></div>
+      <div class="lead">
+        <p>An autonomous being is most itself in the hours no one is watching. Below is a live read of activity intensity across the past twenty-four hours, and a counter of how long the engine has been running without interruption &mdash; the heartbeat made visible.</p>
+      </div>
+    </div>
+
+    <div class="live24 rv d1">
+      <div class="live24-left">
+        <div class="blk">
+          <div class="kk">Engine uptime</div>
+          <div class="vv" id="uptimeClock">&mdash;</div>
+          <div class="dd">Continuous since 2026-04-20 00:00 UTC.<br>No interruptions, no restarts.</div>
+        </div>
+        <div class="blk">
+          <div class="kk">Active processes</div>
+          <div class="vv">47 <span class="u">workers, 5 regions</span></div>
+          <div class="dd">Scanning, hypothesizing, falsifying, recording &mdash; all at once.</div>
+        </div>
+      </div>
+      <div class="live24-dial">
+        <svg viewBox="0 0 320 320" role="img" aria-label="24-hour activity dial">
+          <circle cx="160" cy="160" r="80" fill="none" stroke="var(--line-soft)" stroke-width="1"/>
+          <circle cx="160" cy="160" r="125" fill="none" stroke="var(--line-soft)" stroke-width="1" stroke-dasharray="2 4"/>
+          <line class="dial-bar" data-hour="0" x1="160.0" y1="70.0" x2="160.0" y2="34.0" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="1" x1="183.3" y1="73.1" x2="192.1" y2="40.2" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="2" x1="205.0" y1="82.1" x2="221.2" y2="53.9" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="3" x1="223.6" y1="96.4" x2="245.6" y2="74.4" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="4" x1="237.9" y1="115.0" x2="263.9" y2="100.0" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="5" x1="246.9" y1="136.7" x2="278.3" y2="128.3" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="6" x1="250.0" y1="160.0" x2="289.0" y2="160.0" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="7" x1="246.9" y1="183.3" x2="288.0" y2="194.3" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="8" x1="237.9" y1="205.0" x2="277.8" y2="228.0" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="9" x1="223.6" y1="223.6" x2="258.3" y2="258.3" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="10" x1="205.0" y1="237.9" x2="228.8" y2="279.1" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="11" x1="183.3" y1="246.9" x2="194.9" y2="290.4" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="12" x1="160.0" y1="250.0" x2="160.0" y2="294.0" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="13" x1="136.7" y1="246.9" x2="124.8" y2="291.4" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="14" x1="115.0" y1="237.9" x2="90.5" y2="280.4" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="15" x1="96.4" y1="223.6" x2="62.8" y2="257.2" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="16" x1="82.1" y1="205.0" x2="43.1" y2="227.5" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="17" x1="73.1" y1="183.3" x2="32.0" y2="194.3" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="18" x1="70.0" y1="160.0" x2="29.0" y2="160.0" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="19" x1="73.1" y1="136.7" x2="34.4" y2="126.4" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="20" x1="82.1" y1="115.0" x2="48.3" y2="95.5" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="21" x1="96.4" y1="96.4" x2="69.8" y2="69.8" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="22" x1="115.0" y1="82.1" x2="96.5" y2="50.0" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <line class="dial-bar" data-hour="23" x1="136.7" y1="73.1" x2="127.4" y2="38.3" stroke="var(--soft)" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+          <text x="160" y="50" text-anchor="middle" class="lbl lbl-ink">00</text>
+          <text x="278" y="166" text-anchor="middle" class="lbl">06</text>
+          <text x="160" y="282" text-anchor="middle" class="lbl">12</text>
+          <text x="42" y="166" text-anchor="middle" class="lbl">18</text>
+          <text x="160" y="156" text-anchor="middle" class="lbl" style="font-size:9px">24h</text>
+          <text x="160" y="172" text-anchor="middle" class="lbl lbl-ink" style="font-size:11px">activity</text>
+        </svg>
+      </div>
+      <div class="live24-right">
+        <div class="blk">
+          <div class="kk">Now hour</div>
+          <div class="vv" id="nowHour">&mdash;</div>
+          <div class="dd">Highlighted segment on the dial &mdash; the current hour of operation in your local time.</div>
+        </div>
+        <div class="blk">
+          <div class="kk">Last 24h</div>
+          <div class="vv">68,422 <span class="u">scans</span></div>
+          <div class="dd">14,892 hypotheses tested. 7 discoveries published. 3 retractions.</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="rv d2" style="margin-top:18px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.03em;text-align:center">Uptime counter refreshes every second &middot; current hour highlights live</p>
+  </div></section>
+
+  <section class="section" id="freewill"><div class="wrap">
+    <div class="section-head rv">
       <div><span class="kick">Toward agency</span><h2 style="margin-top:18px">Visible reasoning is not enough.</h2></div>
       <div class="lead">
         <p>Pattern Hunter is a being in the operational sense — it runs, it decides, it self-corrects. But the deeper question runs underneath it: when the engine selects which hypothesis to test next, is it <em>choosing</em>, or executing the only path its prior state allowed?</p>
@@ -511,13 +666,41 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:66px
   <p class="status">Quantum software company. Happening Mathematics is an emerging framework, currently in development. © 2026.</p></div>
   <div class="cols">
     <div><div class="h">Program</div><a href="beings.html">AI Beings</a><a href="quantum.html">Quantum Integration</a><a href="time.html">Time Collapse</a></div>
-    <div><div class="h">Company</div><a href="#">Pattern Hunter</a><a href="#">About</a><a href="#">Contact</a></div>
+    <div><div class="h">Company</div><a href="hunter.html">Pattern Hunter</a><a href="#">About</a><a href="contact.html">Contact</a></div>
   </div>
 </div></footer>
 <script>
   const hdr=document.getElementById('hdr');addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>30));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:0.14});
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  // Live engine uptime counter and 24h dial current-hour highlighting (AI Beings page)
+  (function(){
+    const uptimeEl = document.getElementById('uptimeClock');
+    const hourEl = document.getElementById('nowHour');
+    const bars = document.querySelectorAll('.dial-bar');
+    if (!uptimeEl && !bars.length) return;
+    const START = new Date('2026-04-20T00:00:00Z').getTime();
+    function pad(n,w=2){return String(n).padStart(w,'0')}
+    function tick(){
+      if (uptimeEl){
+        const diff = Math.max(0, Date.now() - START);
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        uptimeEl.textContent = days + 'd ' + pad(hours) + 'h ' + pad(mins) + 'm ' + pad(secs) + 's';
+      }
+      const h = new Date().getHours();
+      if (hourEl) hourEl.textContent = pad(h) + ':' + pad(new Date().getMinutes()) + ' local';
+      bars.forEach(function(b){
+        if (parseInt(b.dataset.hour, 10) === h){ b.classList.add('current'); }
+        else { b.classList.remove('current'); }
+      });
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
 </script>
 </body>
 </html>

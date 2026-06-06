@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#DDD0C4">
 <title>QBaseline — Quantum Integration</title>
-<meta name="description" content="Coupling AI beings to quantum measurement — many futures, one record.">
+<meta name="description" content="Coupling AI beings to quantum measurement — many futures, one record. Integrates IBM Quantum, IonQ, D-Wave.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -363,6 +367,83 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:66px
   .ladder .step::after{display:none}
   .cli{padding:16px 18px;font-size:11.5px}
 }
+
+/* ========== CONTACT page ========== */
+.contact-meta{margin-top:40px;display:grid;gap:18px;padding-top:24px;border-top:1px solid var(--line);max-width:30ch}
+.contact-meta .k{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.contact-meta .v{font-size:16px;color:var(--ink)}
+.contact-meta .v a{color:var(--accent);text-decoration:none}
+.contact-meta .v a:hover{text-decoration:underline}
+
+.contact-form{display:grid;gap:18px;padding:0}
+.cf-row{display:grid;gap:8px}
+.cf-l{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+.contact-form input,.contact-form textarea{font-family:var(--serif);font-size:17px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--line-str);padding:8px 0;outline:none;width:100%;transition:border-color .3s}
+.contact-form input:focus,.contact-form textarea:focus{border-bottom-color:var(--accent)}
+.contact-form textarea{resize:vertical;min-height:120px;font-family:var(--serif);line-height:1.6}
+.contact-form button{margin-top:10px;justify-self:start}
+
+/* ========== QUANTUM STACK ========== */
+.qstack{margin-top:46px;border:1px solid var(--line-str);padding:30px;background:transparent}
+.qstack svg{display:block;width:100%;height:auto;max-width:760px;margin:0 auto}
+.qstack .qs-cap{margin-top:18px;padding-top:14px;border-top:1px solid var(--line-soft);font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.65;letter-spacing:0.03em;text-align:center}
+
+.vendors{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line-str)}
+.vendor{padding:30px 26px;border-right:1px solid var(--line)}
+.vendor:last-child{border-right:0}
+.vendor .vh{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.vendor .vn{font-family:var(--serif);color:var(--ink);font-size:24px;line-height:1.16;margin-bottom:14px}
+.vendor .vp{font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.vendor .vd{font-size:14.5px;line-height:1.62;color:var(--soft)}
+.vendor .vbest{margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--muted);padding-top:12px;border-top:1px solid var(--line-soft);line-height:1.55}
+.vendor .vbest b{color:var(--ink);font-weight:500}
+
+.circuit{margin-top:36px;border:1px solid var(--line-str);padding:30px 26px}
+.circuit svg{display:block;width:100%;height:auto;max-width:680px;margin:0 auto}
+.circuit-cap{margin-top:18px;padding-top:14px;border-top:1px solid var(--line-soft);font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.65;text-align:center;letter-spacing:0.03em}
+
+.codeblock{margin-top:24px;background:#1A140F;color:#E8D7B0;font-family:var(--mono);font-size:13px;padding:24px 28px;line-height:1.85;overflow-x:auto;border:1px solid var(--ink)}
+.codeblock .ln{display:block;white-space:pre}
+.codeblock .kw{color:#D88A6A;font-weight:500}
+.codeblock .fn{color:#B5A85C}
+.codeblock .st{color:#9CB67A}
+.codeblock .cm{color:rgba(232,215,176,0.45)}
+.codeblock .nm{color:#E8D7B0}
+
+/* ========== 24h activity dial (AI Beings) ========== */
+.live24{margin-top:46px;display:grid;grid-template-columns:1fr 360px 1fr;gap:40px;align-items:center;border:1px solid var(--line-str);padding:34px 36px}
+.live24-left,.live24-right{display:flex;flex-direction:column;gap:22px}
+.live24 .blk .kk{font-family:var(--mono);font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.live24 .blk .vv{font-family:var(--serif);color:var(--ink);font-size:28px;line-height:1.05;letter-spacing:-0.01em}
+.live24 .blk .vv .u{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:6px;letter-spacing:0.04em}
+.live24 .blk .dd{margin-top:6px;font-family:var(--mono);font-size:11.5px;color:var(--soft);line-height:1.6}
+.live24-dial{position:relative}
+.live24-dial svg{display:block;width:100%;height:auto}
+.live24-dial .dial-bar{transition:opacity .3s}
+.live24-dial .dial-bar.current{stroke:var(--accent);opacity:1;animation:pulse-bar 2.4s ease-in-out infinite}
+@keyframes pulse-bar{0%,100%{stroke-width:3;opacity:0.85}50%{stroke-width:5;opacity:1}}
+
+/* subtle math/physics animations */
+.wave-divide{position:relative;height:24px;margin:50px 0;overflow:hidden}
+.wave-divide svg{position:absolute;top:0;left:0;width:100%;height:100%}
+.wave-path{animation:wave-drift 12s linear infinite}
+@keyframes wave-drift{0%{transform:translateX(0)}100%{transform:translateX(-80px)}}
+
+/* possibility lines with subtle amplitude jitter */
+.stroke-soft.jitter{animation:amp-jitter 4.8s ease-in-out infinite}
+@keyframes amp-jitter{0%,100%{transform:translateY(0)}25%{transform:translateY(-1.2px)}50%{transform:translateY(0)}75%{transform:translateY(1.2px)}}
+
+@media(max-width:880px){
+  .vendors{grid-template-columns:1fr}
+  .vendor{border-right:0;border-bottom:1px solid var(--line)}
+  .vendor:last-child{border-bottom:0}
+  .live24{grid-template-columns:1fr;gap:28px;padding:24px 22px}
+  .live24-dial{order:-1;max-width:280px;margin:0 auto}
+  .codeblock{padding:16px 18px;font-size:11.5px}
+  .qstack{padding:18px 16px}
+  .circuit{padding:20px 16px}
+  .contact-form input,.contact-form textarea{font-size:16px}
+}
 </style>
 </head>
 <body>
@@ -522,9 +603,167 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:66px
     </div>
   </div></section>
 
+  <section class="section"><div class="wrap">
+    <div class="section-head rv">
+      <div><span class="kick">Our quantum stack</span><h2 style="margin-top:18px">One API. Three paradigms. <em>Many machines</em>.</h2></div>
+      <div class="lead">
+        <p>We don't run our own quantum hardware. We integrate with the platforms that do &mdash; IBM Quantum's superconducting machines, IonQ's trapped-ion processors, D-Wave's quantum annealers &mdash; through a single abstraction layer that routes each circuit to whichever backend fits it best.</p>
+        <p>Write the logic once. The layer handles vendor-specific compilation, queue selection, error mitigation, and (where the paradigm requires it) translation between gate-model and annealing formulations. Your AI being talks to one API; the world's quantum providers answer behind it.</p>
+      </div>
+    </div>
+
+    <div class="qstack rv d1">
+      <svg viewBox="0 0 720 380" role="img" aria-label="Layered architecture: AI Being calls QBaseline abstraction layer, which dispatches to IBM Quantum, IonQ, or D-Wave">
+        <!-- Top: application layer -->
+        <rect x="120" y="20" width="480" height="56" fill="none" stroke="var(--line-str)" stroke-width="1.2"/>
+        <text x="360" y="44" text-anchor="middle" class="lbl lbl-ink" style="font-size:13px">AI Being  /  your application</text>
+        <text x="360" y="62" text-anchor="middle" class="lbl">logical quantum operations  &middot;  measurement intents</text>
+
+        <!-- Arrow down -->
+        <line x1="360" y1="76" x2="360" y2="108" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="4 4"/>
+        <polygon points="360,108 355,100 365,100" fill="var(--accent)"/>
+
+        <!-- Middle: abstraction layer (highlighted) -->
+        <rect x="60" y="116" width="600" height="106" fill="none" stroke="var(--accent)" stroke-width="1.6"/>
+        <text x="360" y="142" text-anchor="middle" class="lbl lbl-ac" style="font-size:13px;font-weight:500">QBaseline Quantum Abstraction Layer</text>
+        <g class="lbl" text-anchor="middle">
+          <text x="170" y="172" class="lbl-ink">routing</text>
+          <text x="170" y="186">circuit shape → backend</text>
+          <text x="170" y="200">queue depth → priority</text>
+
+          <text x="360" y="172" class="lbl-ink">optimization</text>
+          <text x="360" y="186">cost · latency · fidelity</text>
+          <text x="360" y="200">target → schedule</text>
+
+          <text x="550" y="172" class="lbl-ink">paradigm translation</text>
+          <text x="550" y="186">gate ↔ annealing</text>
+          <text x="550" y="200">QUBO &middot; QAOA &middot; VQE</text>
+        </g>
+
+        <!-- Arrows from middle to three vendors -->
+        <line x1="180" y1="224" x2="180" y2="256" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <polygon points="180,256 175,248 185,248" fill="var(--accent)"/>
+        <line x1="360" y1="224" x2="360" y2="256" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <polygon points="360,256 355,248 365,248" fill="var(--accent)"/>
+        <line x1="540" y1="224" x2="540" y2="256" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <polygon points="540,256 535,248 545,248" fill="var(--accent)"/>
+
+        <!-- Bottom: vendor boxes -->
+        <rect x="80" y="262" width="200" height="92" fill="none" stroke="var(--line-str)" stroke-width="1.2"/>
+        <text x="180" y="288" text-anchor="middle" class="lbl lbl-ink" style="font-size:13px;font-weight:500">IBM Quantum</text>
+        <text x="180" y="306" text-anchor="middle" class="lbl">superconducting</text>
+        <text x="180" y="320" text-anchor="middle" class="lbl">gate-model · 100s of qubits</text>
+        <text x="180" y="338" text-anchor="middle" class="lbl">cloud · open queues</text>
+
+        <rect x="260" y="262" width="200" height="92" fill="none" stroke="var(--line-str)" stroke-width="1.2"/>
+        <text x="360" y="288" text-anchor="middle" class="lbl lbl-ink" style="font-size:13px;font-weight:500">IonQ</text>
+        <text x="360" y="306" text-anchor="middle" class="lbl">trapped-ion</text>
+        <text x="360" y="320" text-anchor="middle" class="lbl">gate-model · high fidelity</text>
+        <text x="360" y="338" text-anchor="middle" class="lbl">cloud · all-to-all coupling</text>
+
+        <rect x="440" y="262" width="200" height="92" fill="none" stroke="var(--line-str)" stroke-width="1.2"/>
+        <text x="540" y="288" text-anchor="middle" class="lbl lbl-ink" style="font-size:13px;font-weight:500">D-Wave</text>
+        <text x="540" y="306" text-anchor="middle" class="lbl">quantum annealer</text>
+        <text x="540" y="320" text-anchor="middle" class="lbl">distinct paradigm</text>
+        <text x="540" y="338" text-anchor="middle" class="lbl">optimization-shaped problems</text>
+
+        <!-- Note -->
+        <text x="360" y="372" text-anchor="middle" class="lbl">write once &middot; route by fit &middot; pay once</text>
+      </svg>
+      <div class="qs-cap">The abstraction layer is the integration product. The vendors above are the world's leading providers — none is owned by us; all are reached through one interface.</div>
+    </div>
+
+    <div class="vendors rv d2">
+      <div class="vendor">
+        <div class="vh">Vendor 01</div>
+        <div class="vn">IBM Quantum.</div>
+        <div class="vp">Superconducting &middot; gate</div>
+        <div class="vd">Pioneered cloud quantum access in 2016 and remains the most accessible platform. Hundreds of qubits across the Eagle and Heron families, an open queue model, and the Qiskit SDK. Our most-used backend for prototype circuits.</div>
+        <div class="vbest"><b>Best fit:</b> general-purpose gate-model algorithms, education-grade access, broad qubit counts.</div>
+      </div>
+      <div class="vendor">
+        <div class="vh">Vendor 02</div>
+        <div class="vn">IonQ.</div>
+        <div class="vp">Trapped-ion &middot; gate</div>
+        <div class="vd">Trapped-ion processors with all-to-all qubit connectivity and some of the highest reported gate fidelities in the industry. Smaller qubit counts than superconducting machines, but each qubit is much higher quality.</div>
+        <div class="vbest"><b>Best fit:</b> deep circuits, algorithms that benefit from any-to-any coupling, high-fidelity proofs of concept.</div>
+      </div>
+      <div class="vendor">
+        <div class="vh">Vendor 03</div>
+        <div class="vn">D-Wave.</div>
+        <div class="vp">Annealer &middot; non-gate</div>
+        <div class="vd">A different paradigm entirely &mdash; D-Wave's machines solve optimization problems by quantum annealing rather than running gate-model circuits. Thousands of qubits with a distinct topology. The abstraction layer translates problems to and from QUBO.</div>
+        <div class="vbest"><b>Best fit:</b> combinatorial optimization, certain machine-learning subproblems, sampling.</div>
+      </div>
+    </div>
+
+    <div class="circuit rv d1" style="margin-top:60px">
+      <svg viewBox="0 0 680 200" role="img" aria-label="A two-qubit Bell-state preparation circuit: Hadamard on qubit 0, CNOT controlled by qubit 0 targeting qubit 1, then measurement of both qubits">
+        <!-- qubit lines -->
+        <line x1="100" y1="70" x2="620" y2="70" stroke="var(--ink)" stroke-width="1.4"/>
+        <line x1="100" y1="140" x2="620" y2="140" stroke="var(--ink)" stroke-width="1.4"/>
+        <!-- labels -->
+        <text x="60" y="74" text-anchor="middle" class="lbl lbl-ink" style="font-size:14px">|0⟩</text>
+        <text x="60" y="144" text-anchor="middle" class="lbl lbl-ink" style="font-size:14px">|0⟩</text>
+        <text x="60" y="92" text-anchor="middle" class="lbl">q&#x2080;</text>
+        <text x="60" y="162" text-anchor="middle" class="lbl">q&#x2081;</text>
+        <!-- Hadamard gate on q0 -->
+        <rect x="170" y="50" width="40" height="40" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.4"/>
+        <text x="190" y="76" text-anchor="middle" class="lbl lbl-ink" style="font-size:14px;font-weight:500">H</text>
+        <!-- CNOT: control on q0, target on q1 -->
+        <line x1="340" y1="70" x2="340" y2="140" stroke="var(--ink)" stroke-width="1.4"/>
+        <circle cx="340" cy="70" r="5" fill="var(--ink)"/>
+        <circle cx="340" cy="140" r="14" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.4"/>
+        <line x1="340" y1="126" x2="340" y2="154" stroke="var(--ink)" stroke-width="1.4"/>
+        <line x1="326" y1="140" x2="354" y2="140" stroke="var(--ink)" stroke-width="1.4"/>
+        <!-- measurement bars -->
+        <rect x="500" y="50" width="40" height="40" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.4"/>
+        <path d="M 510 80 Q 520 64 530 80" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+        <line x1="520" y1="80" x2="528" y2="68" stroke="var(--ink)" stroke-width="1.2"/>
+        <rect x="500" y="120" width="40" height="40" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.4"/>
+        <path d="M 510 150 Q 520 134 530 150" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+        <line x1="520" y1="150" x2="528" y2="138" stroke="var(--ink)" stroke-width="1.2"/>
+        <!-- classical wires from measurements -->
+        <line x1="540" y1="70" x2="620" y2="70" stroke="var(--ink)" stroke-width="0.6" stroke-dasharray="2 3"/>
+        <line x1="540" y1="140" x2="620" y2="140" stroke="var(--ink)" stroke-width="0.6" stroke-dasharray="2 3"/>
+        <text x="620" y="62" text-anchor="end" class="lbl">→ 0 or 1</text>
+        <text x="620" y="132" text-anchor="end" class="lbl">→ 0 or 1</text>
+        <!-- annotations -->
+        <text x="190" y="38" text-anchor="middle" class="lbl">Hadamard</text>
+        <text x="340" y="38" text-anchor="middle" class="lbl">CNOT</text>
+        <text x="520" y="38" text-anchor="middle" class="lbl">measure</text>
+        <text x="340" y="190" text-anchor="middle" class="lbl">prepares the Bell state &middot; outcome correlated: 00 or 11, never 01 or 10</text>
+      </svg>
+      <div class="circuit-cap">A two-qubit Bell-state preparation &mdash; the &ldquo;hello world&rdquo; of entanglement. Written once, executable on any of the three vendors above.</div>
+    </div>
+
+    <div class="codeblock rv d2">
+      <span class="ln"><span class="cm"># write the circuit once, in vendor-neutral form</span></span>
+      <span class="ln"><span class="kw">from</span> qbaseline.quantum <span class="kw">import</span> Circuit, run</span>
+      <span class="ln">&nbsp;</span>
+      <span class="ln"><span class="nm">c</span> = <span class="fn">Circuit</span>(qubits=<span class="st">2</span>)</span>
+      <span class="ln"><span class="nm">c</span>.<span class="fn">h</span>(<span class="st">0</span>)                          <span class="cm"># Hadamard on qubit 0</span></span>
+      <span class="ln"><span class="nm">c</span>.<span class="fn">cnot</span>(control=<span class="st">0</span>, target=<span class="st">1</span>)    <span class="cm"># entangle q0 and q1</span></span>
+      <span class="ln"><span class="nm">c</span>.<span class="fn">measure_all</span>()</span>
+      <span class="ln">&nbsp;</span>
+      <span class="ln"><span class="cm"># dispatch — the layer chooses the backend</span></span>
+      <span class="ln"><span class="nm">result</span> = <span class="fn">run</span>(<span class="nm">c</span>, prefer=<span class="st">"lowest_cost"</span>, shots=<span class="st">1024</span>)</span>
+      <span class="ln">&nbsp;</span>
+      <span class="ln"><span class="cm"># the same call may route to:</span></span>
+      <span class="ln"><span class="cm">#   IBM Quantum   (superconducting gate-model)</span></span>
+      <span class="ln"><span class="cm">#   IonQ          (trapped-ion gate-model)</span></span>
+      <span class="ln"><span class="cm">#   D-Wave        (after gate→QUBO translation)</span></span>
+      <span class="ln">&nbsp;</span>
+      <span class="ln"><span class="fn">print</span>(<span class="nm">result</span>.counts)</span>
+      <span class="ln"><span class="cm"># → {'00': 521, '11': 503}   the Bell-state signature</span></span>
+    </div>
+
+    <p class="rv d3" style="margin-top:42px;font-family:var(--mono);font-size:12.5px;color:var(--muted);line-height:1.7;border-left:2px solid var(--line-str);padding-left:16px;max-width:62ch">The abstraction layer is what we are building. Today most teams write circuits against one vendor's SDK and rewrite when they switch. Our layer makes vendor a runtime choice, not a port.</p>
+  </div></section>
+
   <section class="nextpage"><div class="wrap">
     <div class="kk rv">Next track</div>
-    <a class="rv d1" href="time.html">Time Collapse <span class="arr">→</span></a>
+    <a class="rv d1" href="time.html">Time Collapse <span class="arr">&rarr;</span></a>
   </div></section>
 </main>
 
@@ -533,13 +772,41 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:66px
   <p class="status">Quantum software company. Happening Mathematics is an emerging framework, currently in development. © 2026.</p></div>
   <div class="cols">
     <div><div class="h">Program</div><a href="beings.html">AI Beings</a><a href="quantum.html">Quantum Integration</a><a href="time.html">Time Collapse</a></div>
-    <div><div class="h">Company</div><a href="#">Pattern Hunter</a><a href="#">About</a><a href="#">Contact</a></div>
+    <div><div class="h">Company</div><a href="hunter.html">Pattern Hunter</a><a href="#">About</a><a href="contact.html">Contact</a></div>
   </div>
 </div></footer>
 <script>
   const hdr=document.getElementById('hdr');addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>30));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:0.14});
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  // Live engine uptime counter and 24h dial current-hour highlighting (AI Beings page)
+  (function(){
+    const uptimeEl = document.getElementById('uptimeClock');
+    const hourEl = document.getElementById('nowHour');
+    const bars = document.querySelectorAll('.dial-bar');
+    if (!uptimeEl && !bars.length) return;
+    const START = new Date('2026-04-20T00:00:00Z').getTime();
+    function pad(n,w=2){return String(n).padStart(w,'0')}
+    function tick(){
+      if (uptimeEl){
+        const diff = Math.max(0, Date.now() - START);
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        uptimeEl.textContent = days + 'd ' + pad(hours) + 'h ' + pad(mins) + 'm ' + pad(secs) + 's';
+      }
+      const h = new Date().getHours();
+      if (hourEl) hourEl.textContent = pad(h) + ':' + pad(new Date().getMinutes()) + ' local';
+      bars.forEach(function(b){
+        if (parseInt(b.dataset.hour, 10) === h){ b.classList.add('current'); }
+        else { b.classList.remove('current'); }
+      });
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
 </script>
 </body>
 </html>

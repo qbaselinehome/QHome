@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#DDD0C4">
 <title>QBaseline — Pattern Hunter</title>
 <meta name="description" content="Pattern Hunter — a 24/7 autonomous engine scanning public data for hidden cross-domain correlations. The first AI being.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -363,6 +367,83 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:66px
   .ladder .step::after{display:none}
   .cli{padding:16px 18px;font-size:11.5px}
 }
+
+/* ========== CONTACT page ========== */
+.contact-meta{margin-top:40px;display:grid;gap:18px;padding-top:24px;border-top:1px solid var(--line);max-width:30ch}
+.contact-meta .k{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.contact-meta .v{font-size:16px;color:var(--ink)}
+.contact-meta .v a{color:var(--accent);text-decoration:none}
+.contact-meta .v a:hover{text-decoration:underline}
+
+.contact-form{display:grid;gap:18px;padding:0}
+.cf-row{display:grid;gap:8px}
+.cf-l{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+.contact-form input,.contact-form textarea{font-family:var(--serif);font-size:17px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--line-str);padding:8px 0;outline:none;width:100%;transition:border-color .3s}
+.contact-form input:focus,.contact-form textarea:focus{border-bottom-color:var(--accent)}
+.contact-form textarea{resize:vertical;min-height:120px;font-family:var(--serif);line-height:1.6}
+.contact-form button{margin-top:10px;justify-self:start}
+
+/* ========== QUANTUM STACK ========== */
+.qstack{margin-top:46px;border:1px solid var(--line-str);padding:30px;background:transparent}
+.qstack svg{display:block;width:100%;height:auto;max-width:760px;margin:0 auto}
+.qstack .qs-cap{margin-top:18px;padding-top:14px;border-top:1px solid var(--line-soft);font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.65;letter-spacing:0.03em;text-align:center}
+
+.vendors{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line-str)}
+.vendor{padding:30px 26px;border-right:1px solid var(--line)}
+.vendor:last-child{border-right:0}
+.vendor .vh{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.vendor .vn{font-family:var(--serif);color:var(--ink);font-size:24px;line-height:1.16;margin-bottom:14px}
+.vendor .vp{font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.vendor .vd{font-size:14.5px;line-height:1.62;color:var(--soft)}
+.vendor .vbest{margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--muted);padding-top:12px;border-top:1px solid var(--line-soft);line-height:1.55}
+.vendor .vbest b{color:var(--ink);font-weight:500}
+
+.circuit{margin-top:36px;border:1px solid var(--line-str);padding:30px 26px}
+.circuit svg{display:block;width:100%;height:auto;max-width:680px;margin:0 auto}
+.circuit-cap{margin-top:18px;padding-top:14px;border-top:1px solid var(--line-soft);font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.65;text-align:center;letter-spacing:0.03em}
+
+.codeblock{margin-top:24px;background:#1A140F;color:#E8D7B0;font-family:var(--mono);font-size:13px;padding:24px 28px;line-height:1.85;overflow-x:auto;border:1px solid var(--ink)}
+.codeblock .ln{display:block;white-space:pre}
+.codeblock .kw{color:#D88A6A;font-weight:500}
+.codeblock .fn{color:#B5A85C}
+.codeblock .st{color:#9CB67A}
+.codeblock .cm{color:rgba(232,215,176,0.45)}
+.codeblock .nm{color:#E8D7B0}
+
+/* ========== 24h activity dial (AI Beings) ========== */
+.live24{margin-top:46px;display:grid;grid-template-columns:1fr 360px 1fr;gap:40px;align-items:center;border:1px solid var(--line-str);padding:34px 36px}
+.live24-left,.live24-right{display:flex;flex-direction:column;gap:22px}
+.live24 .blk .kk{font-family:var(--mono);font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.live24 .blk .vv{font-family:var(--serif);color:var(--ink);font-size:28px;line-height:1.05;letter-spacing:-0.01em}
+.live24 .blk .vv .u{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:6px;letter-spacing:0.04em}
+.live24 .blk .dd{margin-top:6px;font-family:var(--mono);font-size:11.5px;color:var(--soft);line-height:1.6}
+.live24-dial{position:relative}
+.live24-dial svg{display:block;width:100%;height:auto}
+.live24-dial .dial-bar{transition:opacity .3s}
+.live24-dial .dial-bar.current{stroke:var(--accent);opacity:1;animation:pulse-bar 2.4s ease-in-out infinite}
+@keyframes pulse-bar{0%,100%{stroke-width:3;opacity:0.85}50%{stroke-width:5;opacity:1}}
+
+/* subtle math/physics animations */
+.wave-divide{position:relative;height:24px;margin:50px 0;overflow:hidden}
+.wave-divide svg{position:absolute;top:0;left:0;width:100%;height:100%}
+.wave-path{animation:wave-drift 12s linear infinite}
+@keyframes wave-drift{0%{transform:translateX(0)}100%{transform:translateX(-80px)}}
+
+/* possibility lines with subtle amplitude jitter */
+.stroke-soft.jitter{animation:amp-jitter 4.8s ease-in-out infinite}
+@keyframes amp-jitter{0%,100%{transform:translateY(0)}25%{transform:translateY(-1.2px)}50%{transform:translateY(0)}75%{transform:translateY(1.2px)}}
+
+@media(max-width:880px){
+  .vendors{grid-template-columns:1fr}
+  .vendor{border-right:0;border-bottom:1px solid var(--line)}
+  .vendor:last-child{border-bottom:0}
+  .live24{grid-template-columns:1fr;gap:28px;padding:24px 22px}
+  .live24-dial{order:-1;max-width:280px;margin:0 auto}
+  .codeblock{padding:16px 18px;font-size:11.5px}
+  .qstack{padding:18px 16px}
+  .circuit{padding:20px 16px}
+  .contact-form input,.contact-form textarea{font-size:16px}
+}
 </style>
 </head>
 <body>
@@ -549,13 +630,41 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:66px
   <p class="status">Quantum software company. Happening Mathematics is an emerging framework, currently in development. © 2026.</p></div>
   <div class="cols">
     <div><div class="h">Program</div><a href="beings.html">AI Beings</a><a href="quantum.html">Quantum Integration</a><a href="time.html">Time Collapse</a></div>
-    <div><div class="h">Company</div><a href="#">Pattern Hunter</a><a href="#">About</a><a href="#">Contact</a></div>
+    <div><div class="h">Company</div><a href="hunter.html">Pattern Hunter</a><a href="#">About</a><a href="contact.html">Contact</a></div>
   </div>
 </div></footer>
 <script>
   const hdr=document.getElementById('hdr');addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>30));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:0.14});
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  // Live engine uptime counter and 24h dial current-hour highlighting (AI Beings page)
+  (function(){
+    const uptimeEl = document.getElementById('uptimeClock');
+    const hourEl = document.getElementById('nowHour');
+    const bars = document.querySelectorAll('.dial-bar');
+    if (!uptimeEl && !bars.length) return;
+    const START = new Date('2026-04-20T00:00:00Z').getTime();
+    function pad(n,w=2){return String(n).padStart(w,'0')}
+    function tick(){
+      if (uptimeEl){
+        const diff = Math.max(0, Date.now() - START);
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        uptimeEl.textContent = days + 'd ' + pad(hours) + 'h ' + pad(mins) + 'm ' + pad(secs) + 's';
+      }
+      const h = new Date().getHours();
+      if (hourEl) hourEl.textContent = pad(h) + ':' + pad(new Date().getMinutes()) + ' local';
+      bars.forEach(function(b){
+        if (parseInt(b.dataset.hour, 10) === h){ b.classList.add('current'); }
+        else { b.classList.remove('current'); }
+      });
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
 </script>
 </body>
 </html>
