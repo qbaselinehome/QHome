@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="6" fill="#DDD0C4"/>
-  <text x="32" y="48" font-family="Cardo, Georgia, serif" font-size="44" font-weight="400" fill="#1F1812" text-anchor="middle">Q</text>
-  <circle cx="50" cy="18" r="3.6" fill="#5C322F"/>
+  <text x="32" y="40" font-family="'IBM Plex Mono', monospace" font-size="34" font-weight="500" fill="#1F1812" text-anchor="middle">Q</text>
+  <path d="M 14 52 L 22 52 Q 26 47 30 52 Q 34 57 38 52 Q 42 47 46 52 L 50 52" fill="none" stroke="#1F1812" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
