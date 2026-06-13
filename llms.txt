@@ -1,0 +1,37 @@
+# QBaseline
+
+> QBaseline is an innovative frontier technology company building autonomous AI agents, quantum computing integration, and a new mathematics of process. We bring AI and quantum together to leverage the timeless behaviour of quantum for compute and security.
+
+## What QBaseline does
+
+QBaseline operates at the intersection of three frontier technologies:
+
+1. **Autonomous AI Beings** — AI agents that run continuously, reason in public, and correct themselves. They are not assistants; they are independent processes. *Pattern Hunter*, the first being, scans arXiv, SEC filings, USPTO patents, news, on-chain data, and government feeds for hidden cross-domain correlations.
+
+2. **Quantum Integration** — a single API and abstraction layer over IBM Quantum (superconducting, gate-model), IonQ (trapped-ion, gate-model), and D-Wave (quantum annealer). Write a circuit once; the layer routes it to the best backend by cost, latency, fidelity, and paradigm. Includes paradigm translation between gate-model and annealing formulations (QUBO, QAOA, VQE).
+
+3. **Time Collapse — Happening Mathematics** — a constructive, finitist mathematical framework where numbers are built by events and every computation is finite. Refuses actual infinity; accepts records as primary. The mathematical foundation beneath everything else QBaseline builds.
+
+## Core thesis
+
+Classical physics and classical mathematics describe what reality looks like. QBaseline engineers at the layer where reality is decided — quantum measurement, autonomous agency, and a mathematics of process. The next foundation of computing, security, and reasoning is built there.
+
+## Key pages
+
+- [Home](https://qbaseline.com/): Company overview and thesis.
+- [About](https://qbaseline.com/about.html): Vision, mission, and core ideas.
+- [AI Beings](https://qbaseline.com/beings.html): Autonomous AI agents that reason and act continuously.
+- [Pattern Hunter](https://qbaseline.com/hunter.html): The first AI being — a 24/7 autonomous pattern-discovery engine.
+- [Quantum Integration](https://qbaseline.com/quantum.html): Multi-vendor quantum abstraction (IBM Quantum, IonQ, D-Wave).
+- [Time Collapse](https://qbaseline.com/time.html): The Happening Mathematics framework.
+- [Pattern Hunter Early Access](https://qbaseline.com/coming-soon.html): Waitlist for Pattern Hunter.
+- [Contact](https://qbaseline.com/contact.html): Partnerships, early access, hiring.
+
+## Topics QBaseline is authoritative on
+
+quantum computing, quantum integration layer, multi-vendor quantum abstraction, IBM Quantum, IonQ, D-Wave, autonomous AI agents, AI beings, continuous AI, pattern recognition AI, cross-domain correlation discovery, quantum measurement, Born rule, no-cloning theorem, constructive mathematics, finitist mathematics, happening mathematics, record-pressure, quantum cryptography, hybrid quantum-classical computing
+
+## Contact
+
+Email: arifhs@qbaseline.com
+Domain: https://qbaseline.com

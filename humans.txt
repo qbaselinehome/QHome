@@ -1,0 +1,16 @@
+/* TEAM */
+QBaseline
+Site: https://qbaseline.com
+Contact: arifhs@qbaseline.com
+Location: Distributed · 5 regions
+
+/* SITE */
+Last updated: 2026
+Language: English
+Doctype: HTML5
+Standards: HTML5, CSS3, SVG, JSON-LD
+Components: Static HTML, no framework
+Software: Built with Python · hand-typed CSS · hand-drawn SVG diagrams · IBM Plex Mono · Cardo
+
+/* THANKS */
+To everyone bringing quantum closer to engineering.
